@@ -39,7 +39,7 @@ function App() {
         <Route name="register" path="register" element={<Register/>} />
 
         <Route name="all-users" path="all-users" element={<AllUsers/>} />
-        <Route name="view-edit-users" path="edit/id" element={<ViewEditUser/>} />
+        <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser/>} />
         <Route path="*" element={<PageNotFound />} />
 
       </Routes>
