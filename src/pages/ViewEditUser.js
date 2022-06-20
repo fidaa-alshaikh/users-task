@@ -11,10 +11,20 @@ export default function ViewEditUser() {
   const [inputs, setInputs] = useState([]);
 
   useEffect(() => {
-    axios.post(`${UrlPath}edit-user.php`, {"id":id}).then((response) => {
-      setInputs(response.data.user);
+    // axios.post(`${UrlPath}edit-user.php/${id}`, {"id":id}).then((response) => {
+    // //   setInputs(response.data.user);
+    // console.log(response.data);
 
-    }).catch((err) => console.log(err));
+    // }).catch((err) => console.log(err));
+
+    axios.get(`${UrlPath}edit-user.php/${id}`).then((response) => {
+        setInputs(response.data.user);
+        console.log(response.data);
+    
+        }).catch((err) => console.log(err));
+
+
+
   },[])
 
   const handleChange = (event) => {
