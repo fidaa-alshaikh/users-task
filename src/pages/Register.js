@@ -20,7 +20,7 @@ export default function Register() {
 
       // const test = await createUser(inputs);
       // console.log(test);
-      
+      console.log("inputs",inputs)
       axios.post(`${UrlPath}add-user.php`, inputs).then(function(response){
            if(response.data.status){
             console.log(response.data.message);
@@ -30,7 +30,7 @@ export default function Register() {
            }
 
          
-      });
+      }).catch((err) => console.log(err));;
       
   }
   

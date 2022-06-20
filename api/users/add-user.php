@@ -3,7 +3,7 @@ require('../api-cofig.php');
 
 $_POST = json_decode(file_get_contents("php://input"),true);
 
-if (isset($_POST['email']) && isset($_POST['full_name']) && $_POST['password'] 
+if (isset($_POST['email']) && isset($_POST['full_name']) &&  isset($_POST['password']) 
 && !empty($_POST['email']) && !empty($_POST['full_name']) && !empty($_POST['password']))
 
 {

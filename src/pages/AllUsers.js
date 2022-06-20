@@ -11,8 +11,17 @@ export default function AllUsers() {
     axios.get(`${UrlPath}view-users.php`).then((response) => {
       setUsers(response.data.users);
       setStatus(response.data.status);
-    })
-  }, [])
+    }).catch((err) => console.log(err));
+  }, [users])
+
+  function deleteUser(id){
+    console.log("id: " + id);
+    axios.delete(`${UrlPath}delete-user.php`, { data: { id: id }}).then((response) => {
+      
+      console.log(response.data); 
+
+    });
+  }
 
   return (
 
@@ -36,7 +45,7 @@ export default function AllUsers() {
                 <td>{user.email}</td>
                 <td>
                   <Link to={`user/${user.id}/edit`} style={{marginRight: "10px"}}>Edit</Link>
-                            {/* <button onClick={() => deleteUser(user.id)}>Delete</button> */}
+                            <button onClick={() => deleteUser(user.id)}>Delete</button>
                 </td>
               </tr>
             )}
