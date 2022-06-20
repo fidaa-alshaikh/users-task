@@ -44,7 +44,7 @@ switch ($method) {
 }
 
 
-//$inputs = json_decode(file_get_contents("php://input"),true); // read data in json format
+//$inputs = json_decode(file_get_contents("php://input"),true); // 
 
 // $method = $_SERVER['REQUEST_METHOD'];
 // switch ($method) {

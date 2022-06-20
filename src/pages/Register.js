@@ -18,13 +18,10 @@ export default function Register() {
   const handleSubmit = (event) => {
       event.preventDefault();
 
-      // const test = await createUser(inputs);
-      // console.log(test);
-      console.log("inputs",inputs)
       axios.post(`${UrlPath}add-user.php`, inputs).then(function(response){
            if(response.data.status){
             console.log(response.data.message);
-            // navigate('/');
+             navigate('/login');
            }else{
             console.log(response.data.message);
            }

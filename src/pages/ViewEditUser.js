@@ -19,12 +19,8 @@ export default function ViewEditUser() {
 
     axios.get(`${UrlPath}edit-user.php/${id}`).then((response) => {
         setInputs(response.data.user);
-        console.log(response.data);
     
         }).catch((err) => console.log(err));
-
-
-
   },[])
 
   const handleChange = (event) => {

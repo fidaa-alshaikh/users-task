@@ -1,16 +1,16 @@
 <?php
 require('../api-cofig.php');
 
-$_POST = json_decode(file_get_contents("php://input"),true);
+$userInfo = json_decode(file_get_contents("php://input"),true); // convert JSON to associative array
 
-if (isset($_POST['email']) && isset($_POST['full_name']) &&  isset($_POST['password']) 
-&& !empty($_POST['email']) && !empty($_POST['full_name']) && !empty($_POST['password']))
+if (isset($userInfo['email']) && isset($userInfo['full_name']) &&  isset($userInfo['password']) 
+&& !empty($userInfo['email']) && !empty($userInfo['full_name']) && !empty($userInfo['password']))
 
 {
 // 1. Get data from form
-$full_name = $_POST['full_name'];
-$email = $_POST['email'];
-$password = md5($_POST['password']); // encrypted password
+$full_name = $userInfo['full_name'];
+$email = $userInfo['email'];
+$password = md5($userInfo['password']); // encrypted password
 
 //2. SQL query to save data into database
 $sql = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password' ";
@@ -30,5 +30,5 @@ if ($res) {
 else
 {
     $response = ['status' => false, 'message' => 'Failed to create record.'];
-    echo json_encode($response);
+    echo json_encode($response); // convert associative array to json
 }

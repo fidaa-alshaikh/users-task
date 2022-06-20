@@ -7,18 +7,22 @@ export default function AllUsers() {
   const [users, setUsers] = useState([]);
   const [status, setStatus] = useState([]);
 
-  useEffect(() => {
+  function getAllUsers (){
     axios.get(`${UrlPath}view-users.php`).then((response) => {
       setUsers(response.data.users);
       setStatus(response.data.status);
     }).catch((err) => console.log(err));
-  }, [users])
+  }
+
+  useEffect(() => {
+   getAllUsers();
+  }, [])
 
   function deleteUser(id){
-    console.log("id: " + id);
     axios.delete(`${UrlPath}delete-user.php`, { data: { id: id }}).then((response) => {
       
       console.log(response.data); 
+      getAllUsers();
 
     });
   }
