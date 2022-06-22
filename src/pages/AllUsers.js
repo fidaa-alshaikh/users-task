@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
+import axios from "../services/axios.js";
 import { Link } from "react-router-dom";
-const UrlPath = 'http://localhost/users-task/api/users/';
 export default function AllUsers() {
 
   const [users, setUsers] = useState([]);
   const [status, setStatus] = useState([]);
 
   function getAllUsers (){
-    axios.get(`${UrlPath}view-users.php`).then((response) => {
+    axios.get(`/view-users.php`).then((response) => {
       setUsers(response.data.users);
       setStatus(response.data.status);
     }).catch((err) => console.log(err));
@@ -19,12 +18,12 @@ export default function AllUsers() {
   }, [])
 
   function deleteUser(id){
-    axios.delete(`${UrlPath}delete-user.php`, { data: { id: id }}).then((response) => {
+    axios.delete(`/delete-user.php`, { data: { id: id }}).then((response) => {
       
       console.log(response.data); 
       getAllUsers();
 
-    });
+    }).catch((err) => console.log(err));;
   }
 
   return (

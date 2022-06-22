@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../services/axios.js";
 import {createUser} from "../services/User/User.js";
-const UrlPath = 'http://localhost/users-task/api/users/';
+// const UrlPath = 'http://localhost/users-task/api/users/';
 
 export default function Register() {
 
@@ -15,10 +15,10 @@ export default function Register() {
       const value = event.target.value;
       setInputs(values => ({...values, [name]: value}));
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
       event.preventDefault();
 
-      axios.post(`${UrlPath}add-user.php`, inputs).then(function(response){
+       await axios.post(`/add-user.php`, inputs).then(function(response){
            if(response.data.status){
             console.log(response.data.message);
              navigate('/login');

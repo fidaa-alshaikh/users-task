@@ -1,7 +1,7 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react';
+import axios from "../services/axios.js";
 import { useParams } from 'react-router-dom';
-const UrlPath = 'http://localhost/users-task/api/users/';
 
 export default function ViewEditUser() {
   
@@ -17,7 +17,7 @@ export default function ViewEditUser() {
 
     // }).catch((err) => console.log(err));
 
-    axios.get(`${UrlPath}edit-user.php/${id}`).then((response) => {
+    axios.get(`/edit-user.php/${id}`).then((response) => {
         setInputs(response.data.user);
     
         }).catch((err) => console.log(err));
@@ -28,10 +28,9 @@ export default function ViewEditUser() {
     const value = event.target.value;
     setInputs(values => ({...values, [name]: value}));
 }
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
     event.preventDefault();
-console.log(inputs);
-    axios.put(`${UrlPath}edit-user.php`,inputs).then((response) => {
+    await axios.put(`/edit-user.php`,inputs).then((response) => {
 
       if(response.data.status){
         console.log(response.data.message);
@@ -39,7 +38,7 @@ console.log(inputs);
        }else{
         console.log(response.data.message);
        }
-    })  
+    }).catch((err) => console.log(err));
 }
 
   return (
