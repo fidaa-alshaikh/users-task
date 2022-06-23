@@ -20,8 +20,8 @@ if ($res) {
         $user = mysqli_fetch_assoc($res);
         $iss = 'localhost'; // issuer name
         $iat = time(); // issuer time // current time
-        $nbf = $iat + 10; // not before // after 10 sec
-        $exp = '1h'; // expired
+        $nbf = $iat ; // not before // after 10 sec
+        $exp = time() + 10; // expired
         $aud = 'users'; // audience 
         $user_data = array(
             'id' => $user['id'],
@@ -40,7 +40,7 @@ if ($res) {
         $secret_key = 'FIDAA';
         $jwt = JWT::encode($payload, $secret_key, 'HS256');
         $response = ['status' => true, 'message' => "Login successfully",
-        'jwt' => $jwt];
+        'access_token' => $jwt];
         echo json_encode($response);
 
 

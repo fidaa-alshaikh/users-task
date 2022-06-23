@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './App.css';
 import './test.php';
 
@@ -17,33 +17,60 @@ import ViewEditUser from './pages/ViewEditUser';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PageNotFound from './pages/PageNotFound';
-
+import ProtectedRoute from './components/ProtectedRoute';
+import AuthContext from './contexts/AuthProvider.js';
+import axios from "./services/axios.js";
 function App() {
 
-  const [data, newData] = useState(null);
+ 
+  const {auth, setAuth} = useContext(AuthContext);
+  const [dataLoading, setDataLoading] = useState(false)
+  const [inputs, setInputs] = useState([]);
+  // const [auth, setAuth] = useState({ currentUser: null, isLoggedIn: false });
 
-  useEffect(() => {
-    fetch('http://localhost/users-task/src/test.php')
-      .then((response) => response.text())
-      .then((response) => newData(response));
-  }, []);
+  const userLogin = () => {
+    if (localStorage.jwtToken) {
+      const jwtToken = localStorage.jwtToken;
+     // const currentUser = jwt_decode(jwtToken, "SECRET").user;
+      setAuth({ jwtToken });
+      axios.get(`/edit-user.php/13`).then((response) => {
+        setInputs(response.data.user);
+
+    }).catch((err) => console.log(err));
+    } else {
+      setAuth(null);
+    }
+
+    setDataLoading(true)
+ 
+  };
+
+  useEffect(userLogin, []);
+  console.log("The current User is: ", auth);
 
   return (
-    <div className="App">
-      <Navbar/>
+    <div >
+      { dataLoading &&
+      <>
+      <Navbar loginCallback= {userLogin} auth={auth}/>
       <Header/>
       <Routes>
         <Route name="home" exact path="/" element={<Home/>} />
 
-        <Route name="login" path="login" element={<Login/>} />
+        <Route name="login" path="login" element={<Login loginCallback= {userLogin}/>} />
         <Route name="register" path="register" element={<Register/>} />
 
+        <Route name="outlet" path="/" element={<ProtectedRoute/>} >
         <Route name="all-users" path="all-users" element={<AllUsers/>} />
-        <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser/>} />
+        <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser inputs={inputs}/>} />
+        </Route>
+
         <Route path="*" element={<PageNotFound />} />
 
       </Routes>
       <Footer/>
+      </>
+}
 
     </div>
   );

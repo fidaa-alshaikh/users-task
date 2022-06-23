@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import axios from "../services/axios.js";
 import { Link } from "react-router-dom";
+import AuthContext from '../contexts/AuthProvider.js';
 export default function AllUsers() {
-
+  const {auth} = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [status, setStatus] = useState([]);
 
