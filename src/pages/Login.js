@@ -107,7 +107,7 @@ export default function Login(props) {
               name="email"
               autoComplete="email"
               autoFocus
-              value={formik.values.email}
+              value={formik.values.email || ''}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
@@ -121,7 +121,7 @@ export default function Login(props) {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={formik.values.password}
+              value={formik.values.password || ''}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}

@@ -117,7 +117,7 @@ export default function Register() {
                   id="full_name"
                   label="Full Name"
                   autoFocus
-                  value={formik.values.full_name}
+                  value={formik.values.full_name || ''}
                   onChange={formik.handleChange}
                   error={formik.touched.full_name && Boolean(formik.errors.full_name)}
                   helperText={formik.touched.full_name && formik.errors.full_name}
@@ -131,7 +131,7 @@ export default function Register() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value={formik.values.email}
+                  value={formik.values.email || ''}
                   onChange={formik.handleChange}
                   error={formik.touched.email && Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
@@ -146,7 +146,7 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  value={formik.values.password}
+                  value={formik.values.password || ''}
                   onChange={formik.handleChange}
                   error={formik.touched.password && Boolean(formik.errors.password)}
                   helperText={formik.touched.password && formik.errors.password}

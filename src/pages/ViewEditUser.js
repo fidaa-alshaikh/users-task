@@ -10,45 +10,65 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import { Field, Form, Formik } from 'formik';
 
 //Formik
-// import { useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Swal from "sweetalert2";
 
-// const validationSchema = yup.object({
-//     full_name: yup
-//         .string('Enter your name')
-//         .required('Name is required'),
-//     email: yup
-//         .string('Enter your email')
-//         .email('Enter a valid email')
-//         .required('Email is required'),
-//     password: yup
-//         .string('Enter your password')
-//         .min(8, 'Password should be of minimum 8 characters length')
-//         .required('Password is required'),
-// });
+const validationSchema = yup.object({
+    full_name: yup
+        .string('Enter your name')
+        .required('Name is required'),
+});
 
+const genders = [
+    {
+        value: 'Male',
+        label: 'Male',
+    },
+    {
+        value: 'Female',
+        label: 'Female',
+    },
+    {
+        value: 'Not to say',
+        label: 'Prefer not to say',
+    },
+    {
+        value:  undefined,
+        label: '',
+    }
+];
 
-const currencies = [
+const countries = [
     {
-        value: 'USD',
-        label: '$',
+        value: 'Saudi Arabia',
+        label: 'Saudi Arabia',
     },
     {
-        value: 'EUR',
-        label: '€',
+        value:  undefined,
+        label: '',
+    }
+];
+
+const cities = [
+    {
+        value: 'Alhassa',
+        label: 'Alhassa',
     },
     {
-        value: 'BTC',
-        label: '฿',
+        value: 'Riyadh',
+        label: 'Riyadh',
     },
     {
-        value: 'JPY',
-        label: '¥',
+        value: 'Jeddah',
+        label: 'Jeddah',
     },
+    {
+        value:  undefined,
+        label: '',
+    }
 ];
 
 
@@ -56,114 +76,52 @@ export default function ViewEditUser(props) {
 
 
     const { id } = useParams();
-    //const {inputs} = props;
-    const [dataLoading, setDataLoading] = useState(false)
      const [inputs, setInputs] = useState([]);
 
     useEffect(() => {
-        // axios.post(`${UrlPath}edit-user.php/${id}`, {"id":id}).then((response) => {
-        // //   setInputs(response.data.user);
-        // console.log(response.data);
-
-        // }).catch((err) => console.log(err));
-
         axios.get(`/edit-user.php/${id}`).then((response) => {
             setInputs(response.data.user);
 
         }).catch((err) => console.log(err));
-        setDataLoading(true);
     }, [])
 
-    // const handleChange = (event) => {
-    //     const name = event.target.name;
-    //     const value = event.target.value;
-    //     setInputs(values => ({ ...values, [name]: value }));
-    // }
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        await axios.put(`/edit-user.php`, inputs).then((response) => {
+    const formik = useFormik(
+        {
+        initialValues: inputs,
+        enableReinitialize:true,
+        validationSchema: validationSchema,
+        onSubmit: async (values) => {
 
-            if (response.data.status) {
-                console.log(response.data.message);
-                // navigate('/');
-            } else {
-                console.log(response.data.message);
-            }
-        }).catch((err) => console.log(err));
-    }
+            await axios.put(`/edit-user.php`, values).then((response) => {
 
-
-
-    // const formik = useFormik(
-    //     {
-    //     initialValues: inputs,
-    //     validationSchema: {},
-    //     onSubmit: async (values) => {
-    //         //  await axios.post(`/add-user.php`, values).then(function(response){
-    //         //   const message = response.data.message;
-    //         //   const status = response.data.status;
-    //         //      if(status){
-    //         //       Swal.fire({
-    //         //         title: 'Success Registration',
-    //         //         html: message,
-    //         //         confirmButtonText:"Ok",
-    //         //         focusConfirm: false,
-    //         //         icon: "success",
-    //         //       }).then(() => {
-    //         //         navigate('/login');}
-    //         //       )
-
-    //         //      }else{
-    //         //       Swal.fire({
-    //         //         title: 'Error Registration',
-    //         //         html: message,
-    //         //         confirmButtonText:"Ok",
-    //         //         focusConfirm: false,
-    //         //         icon: "error",
-    //         //       })
-    //         //      }
-
-
-    //         // }).catch((err) => console.log(err));;
-    //     }
+                const message = response.data.message;
+                const status = response.data.status;
+                if (status) {
+                    Swal.fire({
+                    title: 'Success',
+                    html: message,
+                    confirmButtonText:"Ok",
+                    focusConfirm: false,
+                    icon: "success",
+                  })
+                } else {
+                    Swal.fire({
+                    title: 'Error',
+                    html: message,
+                    confirmButtonText:"Ok",
+                    focusConfirm: false,
+                    icon: "error",
+                  })
+                }
+            }).catch((err) => console.log(err));
+        }
         
-    // })
+    })
 
 
     return (
         <Container component="main" maxWidth="md">
-           <Formik
-                                    initialValues={inputs}
-                                    validationSchema=""
-                                    onSubmit={async (values, actions) => {
-                                        // setSubmitting(true);
-                                        // await auth()
-                                        //     .sendPasswordResetEmail(values.email)
-                                        //     .then(async () => {
-                                        //         setLogin(false);
-                                        //         await Swal.fire({
-                                        //             title: t('common.success'),
-                                        //             html: '',
-                                        //             confirmButtonText: t('common.ok'),
-                                        //             focusConfirm: false,
-                                        //             icon: 'success',
-                                        //         });
-                                        //     })
-                                        //     .catch(async (error) => {
-                                        //         await Swal.fire({
-                                        //             title: t('common.error'),
-                                        //             html: t('errors.emailNotFound'),
-                                        //             confirmButtonText: t('common.ok'),
-                                        //             focusConfirm: false,
-                                        //             icon: 'error',
-                                        //         });
-                                        //     });
-                                        // setSubmitting(false);
-                                        // actions.setSubmitting(false);
-                                    }}
-                                >
-                                    {({ values, isSubmitting, errors, touched, handleSubmit, handleChange }) => (
-            <Box component='form' onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
+            <Box component='form' onSubmit={formik.handleSubmit} sx={{ flexGrow: 1 }}>
 
                 <Grid container spacing={2} sx={{
                     marginTop: 8,
@@ -179,25 +137,27 @@ export default function ViewEditUser(props) {
                             id="full_name"
                             label="Full Name"
                             autoFocus
-                            value={values.full_name}
-                            onChange={handleChange}
-                            error={touched.full_name && Boolean(errors.full_name)}
-                            helperText={touched.full_name && errors.full_name}
+                            value={formik.values.full_name || ''}
+                            onChange={formik.handleChange}
+                            error={formik.touched.full_name && Boolean(formik.errors.full_name)}
+                            helperText={formik.touched.full_name && formik.errors.full_name}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <TextField
-                            
-                            name="email"
+                            variant="outlined"
+                            margin="normal"
                             required
                             fullWidth
                             id="email"
+                            name="email"
                             label="Email Address"
                             autoFocus
-                            value={values.email}
-                            onChange={handleChange}
-                            error={touched.email && Boolean(errors.email)}
-                            helperText={touched.email && errors.email}
+                            disabled
+                            value={formik.values.email || ''}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} >
@@ -207,32 +167,11 @@ export default function ViewEditUser(props) {
                             fullWidth
                             id="gender"
                             label="Gender"
-                            value={values.gender}
-                            onChange={handleChange}
-                        // error={touched.gender && Boolean(errors.gender)}
-                        // helperText={touched.gender && errors.gender}
+                            value={formik.values.gender || ''}
+                            onChange={formik.handleChange}
                         >
-                            {currencies.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} sm={6} >
-                        <TextField
-                            name="city"
-                            select
-                            fullWidth
-                            id="city"
-                            label="City"
-                            value={values.city}
-                            onChange={handleChange}
-                        // error={touched.city && Boolean(errors.city)}
-                        // helperText={touched.city && errors.city}
-                        >
-                            {currencies.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
+                            {genders.map((option, key) => (
+                                <MenuItem key={key} value={option.value}>
                                     {option.label}
                                 </MenuItem>
                             ))}
@@ -245,13 +184,28 @@ export default function ViewEditUser(props) {
                             fullWidth
                             id="country"
                             label="Country"
-                            value={values.country}
-                            onChange={handleChange}
-                        // error={touched.country && Boolean(errors.country)}
-                        // helperText={touched.country && errors.country}
+                            value={formik.values.country || ''}
+                            onChange={formik.handleChange}
                         >
-                            {currencies.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
+                            {countries.map((option, key) => (
+                                <MenuItem key={key} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12} sm={6} >
+                        <TextField
+                            name="city"
+                            select
+                            fullWidth
+                            id="city"
+                            label="City"
+                            value={formik.values.city || ''}
+                            onChange={formik.handleChange}
+                        >
+                            {cities.map((option, key) => (
+                                <MenuItem key={key} value={option.value}>
                                     {option.label}
                                 </MenuItem>
                             ))}
@@ -264,17 +218,16 @@ export default function ViewEditUser(props) {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up
+                            Edit
                         </Button>
                     </Grid>
                 </Grid>
 
             </Box>
-            )}
-            </Formik> 
         </Container>
 
 
+//////////// NORMAL INPUTS
         // <div>
         //         <h1>Edit user</h1>
         //         <form onSubmit={handleSubmit}>

@@ -3,6 +3,7 @@ require('../api-cofig.php');
 
 //USE PATH
 $method = $_SERVER['REQUEST_METHOD'];
+// GET ONE USER
 switch ($method) {
     case 'GET':
       $path = explode('/', $_SERVER['REQUEST_URI']);
@@ -24,6 +25,7 @@ switch ($method) {
       }
 
       break;
+  // EDIT ONE USER
     case 'PUT':
       $inputs = json_decode(file_get_contents("php://input"),true);
       $id = $inputs["id"];
@@ -43,6 +45,7 @@ switch ($method) {
       break;
 }
 
+// USE Params
 
 //$inputs = json_decode(file_get_contents("php://input"),true); // 
 

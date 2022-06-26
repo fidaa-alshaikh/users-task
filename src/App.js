@@ -24,19 +24,12 @@ function App() {
 
  
   const {auth, setAuth} = useContext(AuthContext);
-  const [dataLoading, setDataLoading] = useState(false)
-  const [inputs, setInputs] = useState([]);
-  // const [auth, setAuth] = useState({ currentUser: null, isLoggedIn: false });
+  const [dataLoading, setDataLoading] = useState(false);
 
   const userLogin = () => {
     if (localStorage.jwtToken) {
       const jwtToken = localStorage.jwtToken;
-     // const currentUser = jwt_decode(jwtToken, "SECRET").user;
       setAuth({ jwtToken });
-      axios.get(`/edit-user.php/13`).then((response) => {
-        setInputs(response.data.user);
-
-    }).catch((err) => console.log(err));
     } else {
       setAuth(null);
     }
@@ -59,10 +52,11 @@ function App() {
 
         <Route name="login" path="login" element={<Login loginCallback= {userLogin}/>} />
         <Route name="register" path="register" element={<Register/>} />
-
+        
+        {/* Only viewed by login users */}
         <Route name="outlet" path="/" element={<ProtectedRoute/>} >
         <Route name="all-users" path="all-users" element={<AllUsers/>} />
-        <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser inputs={inputs}/>} />
+        <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser />} />
         </Route>
 
         <Route path="*" element={<PageNotFound />} />

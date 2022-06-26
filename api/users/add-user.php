@@ -12,7 +12,7 @@ $full_name = $userInfo['full_name'];
 $email = strtolower($userInfo['email']);
 $password = md5($userInfo['password']); // encrypted password
 
-// Check if email exist
+// Check if email exists
 $sql_1 = "SELECT email FROM tbl_user WHERE email = '$email'";
 $res_1 = mysqli_query($conn, $sql_1);
 
@@ -30,14 +30,11 @@ $res = mysqli_query($conn, $sql_2) or die(mysqli_error($conn));
 
 
 if ($res) {
-  // Create session variable display message
-  // name the var of session (add)
   $response = ['status' => true, 'message' => 'Record created successfully.'];
 } else {
   $response = ['status' => false, 'message' => 'Failed to create record.'];
 }
     echo json_encode($response);
-
 }
 
 

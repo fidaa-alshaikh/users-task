@@ -19,22 +19,16 @@ const pages = [{name:'Home', link:'/'},{name:'Users', link:'/all-users'}];
 const NavBar = (props) => {
   const {auth, loginCallback} = props;
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+
 
   return (
     <AppBar position="static">
@@ -128,7 +122,7 @@ const NavBar = (props) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-          <MenuItem  onClick={handleCloseUserMenu}>
+          <MenuItem >
             {auth?
             <Typography textAlign="center" onClick={() => {
 							localStorage.removeItem("jwtToken");
@@ -150,17 +144,3 @@ const NavBar = (props) => {
   );
 };
 export default NavBar;
-// export default function Navbar(props) {
-//   return (
-//     <div>Navbar
-
-//      <button onClick={() => {
-// 							console.log("Logging Out!");
-// 							localStorage.removeItem("jwtToken");
-// 							props.loginCallback();
-// 							// to="/login"
-// 						  }}>LOGOUT</button>
-//     </div>
-    
-//   )
-// }

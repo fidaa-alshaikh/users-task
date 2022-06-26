@@ -2,7 +2,6 @@
 
 require('../api-cofig.php');
 
-
 $sql = 'SELECT id, full_name, email FROM tbl_user';
 $res = mysqli_query($conn, $sql);
 
