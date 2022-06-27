@@ -10,6 +10,8 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
 
 //Formik
 import { useFormik } from 'formik';
@@ -36,7 +38,7 @@ const genders = [
         label: 'Prefer not to say',
     },
     {
-        value:  undefined,
+        value: undefined,
         label: '',
     }
 ];
@@ -47,7 +49,7 @@ const countries = [
         label: 'Saudi Arabia',
     },
     {
-        value:  undefined,
+        value: undefined,
         label: '',
     }
 ];
@@ -66,7 +68,7 @@ const cities = [
         label: 'Jeddah',
     },
     {
-        value:  undefined,
+        value: undefined,
         label: '',
     }
 ];
@@ -76,7 +78,7 @@ export default function ViewEditUser(props) {
 
 
     const { id } = useParams();
-     const [inputs, setInputs] = useState([]);
+    const [inputs, setInputs] = useState([]);
 
     useEffect(() => {
         axios.get(`/edit-user.php/${id}`).then((response) => {
@@ -87,50 +89,58 @@ export default function ViewEditUser(props) {
 
     const formik = useFormik(
         {
-        initialValues: inputs,
-        enableReinitialize:true,
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
+            initialValues: inputs,
+            enableReinitialize: true,
+            validationSchema: validationSchema,
+            onSubmit: async (values) => {
 
-            await axios.put(`/edit-user.php`, values).then((response) => {
+                await axios.put(`/edit-user.php`, values).then((response) => {
 
-                const message = response.data.message;
-                const status = response.data.status;
-                if (status) {
-                    Swal.fire({
-                    title: 'Success',
-                    html: message,
-                    confirmButtonText:"Ok",
-                    focusConfirm: false,
-                    icon: "success",
-                  })
-                } else {
-                    Swal.fire({
-                    title: 'Error',
-                    html: message,
-                    confirmButtonText:"Ok",
-                    focusConfirm: false,
-                    icon: "error",
-                  })
-                }
-            }).catch((err) => console.log(err));
-        }
-        
-    })
+                    const message = response.data.message;
+                    const status = response.data.status;
+                    if (status) {
+                        Swal.fire({
+                            title: 'Success',
+                            html: message,
+                            confirmButtonText: "Ok",
+                            focusConfirm: false,
+                            icon: "success",
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            html: message,
+                            confirmButtonText: "Ok",
+                            focusConfirm: false,
+                            icon: "error",
+                        })
+                    }
+                }).catch((err) => console.log(err));
+            }
+
+        })
 
 
     return (
         <Container component="main" maxWidth="md">
             <Box component='form' onSubmit={formik.handleSubmit} sx={{ flexGrow: 1 }}>
-
-                <Grid container spacing={2} sx={{
+            <Typography variant="h4" gutterBottom component="div" sx={{
                     marginTop: 8,
+                    marginBottom: 4,
+
+                }}>
+                        Edit User
+                    </Typography>
+                <Grid container spacing={2} sx={{
                     alignItems: 'center',
 
                 }}>
+                    
+
+
                     <Grid item xs={12} sm={12} >
                         <TextField
-                           
+
                             name="full_name"
                             required
                             fullWidth
@@ -227,7 +237,7 @@ export default function ViewEditUser(props) {
         </Container>
 
 
-//////////// NORMAL INPUTS
+        //////////// NORMAL INPUTS
         // <div>
         //         <h1>Edit user</h1>
         //         <form onSubmit={handleSubmit}>

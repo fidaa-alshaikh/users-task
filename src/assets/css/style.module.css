@@ -1,0 +1,24 @@
+.navbar{
+    /* background-color: #329da8; */
+}
+.navLink{
+    text-decoration: none;
+    color: #fff;
+}
+.link{
+    text-decoration: none;
+    color: #000;
+}
+
+.myButton{
+    box-shadow: 'none';
+    text-transform: 'none';
+    background-color: '#4b9cd6';
+    border-color: '#4b9cd6';
+    
+}
+body {
+    color: #404E67;
+    background: #F5F7FA;
+    font-family: 'Open Sans', sans-serif;
+}

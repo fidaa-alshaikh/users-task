@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Navigate, NavLink } from 'react-router-dom';
-
+import styles from '../assets/css/style.module.css';
 const pages = [{name:'Home', link:'/'},{name:'Users', link:'/all-users'}];
 
 const NavBar = (props) => {
@@ -29,9 +29,8 @@ const NavBar = (props) => {
   };
 
 
-
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={styles.navbar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -50,7 +49,7 @@ const NavBar = (props) => {
               textDecoration: 'none',
             }}
           >
-            Fidaa
+            Fidaa Web 
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -85,7 +84,7 @@ const NavBar = (props) => {
               {pages.map((page, key) => (
                 <MenuItem key={key} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <NavLink to={page.link} > {page.name} </NavLink>
+                  <NavLink className={styles.link} to={page.link} > {page.name} </NavLink>
                   </Typography>
                 </MenuItem>
               ))}
@@ -107,7 +106,7 @@ const NavBar = (props) => {
               textDecoration: 'none',
             }}
           >
-            Fidaa
+            Fidaa Web
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, key) => (
@@ -116,7 +115,7 @@ const NavBar = (props) => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <NavLink to={page.link} > {page.name} </NavLink>
+                <NavLink className={styles.navLink} to={page.link} > {page.name} </NavLink>
               </MenuItem>
             ))}
           </Box>
@@ -131,7 +130,7 @@ const NavBar = (props) => {
 						  }}>Logout</Typography>
               :
               <Typography textAlign="center" >
-                <NavLink to="/login">Login</NavLink>
+                <NavLink className={styles.navLink} to="/login">Login</NavLink>
               </Typography>
                 
             }

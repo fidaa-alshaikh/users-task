@@ -16,11 +16,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import styles from '../assets/css/style.module.css';
 //Formik
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Swal from "sweetalert2";
+import Copyright from '../components/Copyright.js';
 
 const validationSchema = yup.object({
   full_name: yup
@@ -36,18 +37,6 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Fidaa
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -100,7 +89,7 @@ export default function Register() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -163,12 +152,12 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <NavLink to='/login'> {"Already have an account? Sign in"}</NavLink>
+                <NavLink className={styles.link} to='/login'> {"Already have an account? Sign in"}</NavLink>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright  sx={{ mt: 5 }}/>
       </Container>
     </ThemeProvider>
   )
