@@ -20,6 +20,8 @@ import PageNotFound from './pages/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthContext from './contexts/AuthProvider.js';
 import axios from "./services/axios.js";
+import AddUser from './pages/AddUser';
+import MyProfile from './pages/MyProfile';
 
 
 function App() {
@@ -57,7 +59,9 @@ function App() {
         
         {/* Only viewed by login users */}
         <Route name="outlet" path="/" element={<ProtectedRoute/>} >
+        <Route name="my-profile" path="my-profile" element={<MyProfile/>} />
         <Route name="all-users" path="all-users" element={<AllUsers/>} />
+        <Route name="add-user" path="all-users/add-user" element={<AddUser/>} />
         <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser />} />
         </Route>
 

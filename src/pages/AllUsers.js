@@ -23,6 +23,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from "sweetalert2";
 
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+
 function createData(key, id, full_name, email, gender, city, country) {
   return { key, id, full_name, email, gender, city, country };
 }
@@ -63,7 +66,7 @@ export default function AllUsers() {
             '',
             'success'
           )
-    
+
         }).catch((err) => console.log(err));
 
 
@@ -74,17 +77,31 @@ export default function AllUsers() {
 
   const rows = users?.map((user, key) => createData(key, user.id, user.full_name, user.email, user.gender, user.city, user.country));
 
+  console.log(rows);
   return (
 
     <Container component="main" maxWidth="md">
       <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="h4" gutterBottom component="div" sx={{
-          marginTop: 8,
-          marginBottom: 4,
 
-        }}>
-          List of Users
-        </Typography>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{
+            marginTop: 10,
+            marginBottom: 4,
+          }}
+        >
+          <Typography variant="h4" gutterBottom component="div">
+            List of Users
+          </Typography>
+          <Link to={`add-user`} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" startIcon={ <AddIcon />}>
+            Add User
+          </Button>
+          </Link>
+        </Grid>
         <Grid container spacing={2} sx={{
           alignItems: 'center',
 
@@ -107,38 +124,38 @@ export default function AllUsers() {
                 {status ?
                   rows.map((row, key) => (
                     <TableRow
-                      key={row.full_name}
+                      key={key}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
 
                       <TableCell component="th" scope="row">
-                        {key +1}
+                        {key + 1}
                       </TableCell>
                       <TableCell align="left">{row.full_name}</TableCell>
                       <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.gender?? '-'}</TableCell>
-                      <TableCell align="left">{row.city?? '-'}</TableCell>
-                      <TableCell align="left">{row.country?? '-'}</TableCell>
+                      <TableCell align="left">{row.gender ?? '-'}</TableCell>
+                      <TableCell align="left">{row.city ??   '-'}</TableCell>
+                      <TableCell align="left">{row.country ?? '-'}</TableCell>
                       <TableCell >
                         <Stack direction="row" spacing={1}>
-                        <Link to={`user/${row.id}/edit`} style={{ marginRight: "10px" }}>
-                          <IconButton aria-label="edit" color="primary">
-                            <EditIcon >  
-                            </EditIcon>
-                          </IconButton>
+                          <Link to={`user/${row.id}/edit`} style={{ marginRight: "10px" }}>
+                            <IconButton aria-label="edit" color="primary">
+                              <EditIcon >
+                              </EditIcon>
+                            </IconButton>
                           </Link>
                           <IconButton aria-label="delete" color="error" onClick={() => deleteUser(row.id)}>
-                            <DeleteIcon/>
+                            <DeleteIcon />
                           </IconButton>
                         </Stack>
-                        </TableCell>
+                      </TableCell>
                     </TableRow>
                   ))
                   :
                   <TableRow>
-                  <TableCell>No data</TableCell>
+                    <TableCell>No data</TableCell>
                   </TableRow>
-               
+
                 }
               </TableBody>
             </Table>

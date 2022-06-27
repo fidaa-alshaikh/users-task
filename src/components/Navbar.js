@@ -120,22 +120,33 @@ const NavBar = (props) => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-          <MenuItem >
-            {auth?
+          <Box sx={{ flexGrow: 0}}>
+          {auth?
+            <>
+            <MenuItem >
+             <MenuItem >
+             <Typography textAlign="center"  >
+                  <NavLink className={styles.navLink} to='/my-profile' > My Profile </NavLink>
+             </Typography>
+             </MenuItem>
+             <MenuItem>
             <Typography textAlign="center" onClick={() => {
 							localStorage.removeItem("jwtToken");
 							loginCallback();
 							// to="/login"
 						  }}>Logout</Typography>
+              </MenuItem>
+              </MenuItem>
+              </>
               :
+              <MenuItem >
               <Typography textAlign="center" >
                 <NavLink className={styles.navLink} to="/login">Login</NavLink>
               </Typography>
+              </MenuItem >
                 
             }
-                  
-                </MenuItem>
+
           </Box>
         </Toolbar>
       </Container>

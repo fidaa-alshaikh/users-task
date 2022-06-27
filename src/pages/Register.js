@@ -48,6 +48,9 @@ export default function Register() {
     initialValues: {},
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+             values.gender = null;
+             values.city = null;
+             values.country = null;
              await axios.post(`/add-user.php`, values).then(function(response){
               const message = response.data.message;
               const status = response.data.status;
@@ -73,7 +76,7 @@ export default function Register() {
                  }
 
 
-            }).catch((err) => console.log(err));;
+            }).catch((err) => console.log(err));
     }
   })
 
