@@ -25,6 +25,7 @@ import Swal from "sweetalert2";
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import SearchBar from '../components/SearchBar.js';
 
 function createData(key, id, full_name, email, gender, city, country) {
   return { key, id, full_name, email, gender, city, country };
@@ -84,8 +85,43 @@ export default function AllUsers() {
 
   }
 
-  const rows = users?.map((user, key) => createData(key, user.id, user.full_name, user.email, user.gender, user.city, user.country));
+  //Search for users 
+  const [searchField, setSearchField] = useState('');
+    
+  function searchFilter(rows){
+    const filteredRows = rows.filter(
+      row => {
+        return (
+          row
+          .full_name
+          .toLowerCase()
+          .includes(searchField.toLowerCase()) ||
+          row
+          .email
+          .toLowerCase()
+          .includes(searchField.toLowerCase()) ||
+          row
+          .gender
+          .toLowerCase()
+          .includes(searchField.toLowerCase()) ||
+          row
+          .city
+          .toLowerCase()
+          .includes(searchField.toLowerCase()) ||
+          row
+          .country
+          .toLowerCase()
+          .includes(searchField.toLowerCase())
+          
+          ) 
+      }
+    );
+    return filteredRows;
+  }
 
+
+  const rows = users?.map((user, key) => createData(key, user.id, user.full_name, user.email, user.gender, user.city, user.country));
+  const filteredRows = searchFilter(rows);
   return (
 
     <Container component="main" maxWidth="md">
@@ -98,7 +134,6 @@ export default function AllUsers() {
           alignItems="center"
           sx={{
             marginTop: 10,
-            marginBottom: 4,
           }}
         >
           <Typography variant="h4" gutterBottom component="div">
@@ -110,6 +145,8 @@ export default function AllUsers() {
             </Button>
           </Link>
         </Grid>
+        <SearchBar setSearchField={setSearchField} searchField={searchField}/>
+        <br/><br/>
         <Grid container spacing={2} sx={{
           alignItems: 'center',
 
@@ -130,7 +167,7 @@ export default function AllUsers() {
               </TableHead>
               <TableBody>
                 {status ?
-                  rows.map((row, key) => (
+                  filteredRows.map((row, key) => (
                     <TableRow
                       key={key}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
