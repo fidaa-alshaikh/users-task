@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,17 +7,18 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Navigate, NavLink } from 'react-router-dom';
 import styles from '../assets/css/style.module.css';
-const pages = [{name:'Home', link:'/'},{name:'Users', link:'/all-users'}];
+import Stack from '@mui/material/Stack';
+
+import AuthContext from '../contexts/AuthProvider.js';
+
+const pages = [{ name: 'Home', link: '/' }, { name: 'Users', link: '/all-users' }];
 
 const NavBar = (props) => {
-  const {auth, loginCallback} = props;
+  const { loginCallback } = props;
+  const { auth } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -38,7 +39,7 @@ const NavBar = (props) => {
             variant="h6"
             noWrap
             component="a"
-            
+
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -49,11 +50,11 @@ const NavBar = (props) => {
               textDecoration: 'none',
             }}
           >
-            Fidaa Web 
+            Fidaa Web
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
+            <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -84,7 +85,7 @@ const NavBar = (props) => {
               {pages.map((page, key) => (
                 <MenuItem key={key} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <NavLink className={styles.link} to={page.link} > {page.name} </NavLink>
+                    <NavLink className={styles.link} to={page.link} > {page.name} </NavLink>
                   </Typography>
                 </MenuItem>
               ))}
@@ -120,31 +121,30 @@ const NavBar = (props) => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0}}>
-          {auth?
-            <>
-            <MenuItem >
-             <MenuItem >
-             <Typography textAlign="center"  >
-                  <NavLink className={styles.navLink} to='/my-profile' > My Profile </NavLink>
-             </Typography>
-             </MenuItem>
-             <MenuItem>
-            <Typography textAlign="center" onClick={() => {
-							localStorage.removeItem("jwtToken");
-							loginCallback();
-							// to="/login"
-						  }}>Logout</Typography>
-              </MenuItem>
-              </MenuItem>
-              </>
+          <Box sx={{ flexGrow: 0 }}>
+            {auth ?
+                <Stack direction="row" spacing={2}>
+                  <MenuItem >
+                    <Typography textAlign="center"  >
+                      <NavLink className={styles.navLink} to='/my-profile' > My Profile </NavLink>
+                    </Typography>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Typography textAlign="center" onClick={() => {
+                      localStorage.removeItem("jwtToken");
+                      loginCallback();
+                      // to="/login"
+                    }}>Logout</Typography>
+                  </MenuItem>
+                </Stack>
               :
               <MenuItem >
-              <Typography textAlign="center" >
-                <NavLink className={styles.navLink} to="/login">Login</NavLink>
-              </Typography>
+                <Typography textAlign="center" >
+                  <NavLink className={styles.navLink} to="/login">Login</NavLink>
+                </Typography>
               </MenuItem >
-                
+
             }
 
           </Box>

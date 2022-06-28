@@ -23,17 +23,21 @@ import axios from "./services/axios.js";
 import AddUser from './pages/AddUser';
 import MyProfile from './pages/MyProfile';
 
+import jwt_decode from "jwt-decode";
+
 
 function App() {
 
  
-  const {auth, setAuth} = useContext(AuthContext);
+  const {setAuth} = useContext(AuthContext);
   const [dataLoading, setDataLoading] = useState(false);
 
   const userLogin = () => {
     if (localStorage.jwtToken) {
       const jwtToken = localStorage.jwtToken;
-      setAuth({ jwtToken });
+      const currentUser = jwt_decode(jwtToken, "FIDAA").data;
+
+      setAuth(currentUser );
     } else {
       setAuth(null);
     }
@@ -43,25 +47,25 @@ function App() {
   };
 
   useEffect(userLogin, []);
-  console.log("The current User is: ", auth);
+ 
 
   return (
     <div >
       { dataLoading &&
       <>
-      <Navbar loginCallback= {userLogin} auth={auth}/>
+      <Navbar loginCallback= {userLogin}/>
       <Header/>
       <Routes>
-        <Route name="home" exact path="/" element={<Home/>} />
+        <Route name="home" exact path="/" element={<Home />} />
 
         <Route name="login" path="login" element={<Login loginCallback= {userLogin}/>} />
-        <Route name="register" path="register" element={<Register/>} />
+        <Route name="register" path="register" element={<Register />} />
         
         {/* Only viewed by login users */}
-        <Route name="outlet" path="/" element={<ProtectedRoute/>} >
-        <Route name="my-profile" path="my-profile" element={<MyProfile/>} />
-        <Route name="all-users" path="all-users" element={<AllUsers/>} />
-        <Route name="add-user" path="all-users/add-user" element={<AddUser/>} />
+        <Route name="outlet" path="/" element={<ProtectedRoute />} >
+        <Route name="my-profile" path="my-profile" element={<MyProfile />} />
+        <Route name="all-users" path="all-users" element={<AllUsers />} />
+        <Route name="add-user" path="all-users/add-user" element={<AddUser />} />
         <Route name="view-edit-users" path="all-users/user/:id/edit" element={<ViewEditUser />} />
         </Route>
 

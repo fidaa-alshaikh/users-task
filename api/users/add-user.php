@@ -27,7 +27,7 @@ if(mysqli_num_rows($res_1)) {
 }
 else
 {
-  //2. SQL query to save data into database
+//2. SQL query to save data into database
 $sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password', gender='$gender', city='$city', country='$country' ";
 // execute the query into database
 $res = mysqli_query($conn, $sql_2) or die(mysqli_error($conn));

@@ -77,7 +77,6 @@ export default function AllUsers() {
 
   const rows = users?.map((user, key) => createData(key, user.id, user.full_name, user.email, user.gender, user.city, user.country));
 
-  console.log(rows);
   return (
 
     <Container component="main" maxWidth="md">
@@ -133,9 +132,9 @@ export default function AllUsers() {
                       </TableCell>
                       <TableCell align="left">{row.full_name}</TableCell>
                       <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.gender ?? '-'}</TableCell>
-                      <TableCell align="left">{row.city ??   '-'}</TableCell>
-                      <TableCell align="left">{row.country ?? '-'}</TableCell>
+                      <TableCell align="left">{row.gender != '' ? row.gender : '-'}</TableCell>
+                      <TableCell align="left">{row.city != ''? row.city : '-'}</TableCell>
+                      <TableCell align="left">{row.country != ''? row.country :'-'}</TableCell>
                       <TableCell >
                         <Stack direction="row" spacing={1}>
                           <Link to={`user/${row.id}/edit`} style={{ marginRight: "10px" }}>
