@@ -29,15 +29,16 @@ import jwt_decode from "jwt-decode";
 function App() {
 
  
-  const {setAuth} = useContext(AuthContext);
+  const {auth, setAuth} = useContext(AuthContext);
   const [dataLoading, setDataLoading] = useState(false);
+  const [inputs, setInputs] = useState([]);
+
 
   const userLogin = () => {
     if (localStorage.jwtToken) {
       const jwtToken = localStorage.jwtToken;
       const currentUser = jwt_decode(jwtToken, "FIDAA").data;
-
-      setAuth(currentUser );
+      setAuth({currentUser });
     } else {
       setAuth(null);
     }
@@ -45,9 +46,10 @@ function App() {
     setDataLoading(true)
  
   };
+ 
+
 
   useEffect(userLogin, []);
- 
 
   return (
     <div >

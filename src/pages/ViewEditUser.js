@@ -43,7 +43,7 @@ export default function ViewEditUser(props) {
                     const status = response.data.status;
                     if (status) {
                         Swal.fire({
-                            title: 'Success',
+                            title: 'Success 👍',
                             html: message,
                             confirmButtonText: "Ok",
                             focusConfirm: false,
@@ -51,7 +51,7 @@ export default function ViewEditUser(props) {
                         })
                     } else {
                         Swal.fire({
-                            title: 'Error',
+                            title: 'Error 😔',
                             html: message,
                             confirmButtonText: "Ok",
                             focusConfirm: false,

@@ -10,7 +10,7 @@ switch ($method) {
       if(isset($path[5])){
 
         $id = $path[5];
-        $sql = 'SELECT id, full_name, email, city, gender, country FROM tbl_user WHERE id = '. $id;
+        $sql = 'SELECT id, role, full_name, email, city, gender, country FROM tbl_user WHERE id = '. $id;
   
         $res = mysqli_query($conn, $sql);
   

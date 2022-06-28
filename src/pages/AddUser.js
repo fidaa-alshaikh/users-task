@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "../services/axios.js";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 //Formik
 import { useFormik } from 'formik';
@@ -23,6 +23,7 @@ const validationSchema = yup.object({
 });
 
 export default function AddUser() {
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {},
@@ -37,16 +38,18 @@ export default function AddUser() {
               const status = response.data.status;
                  if(status){
                   Swal.fire({
-                    title: 'Success',
+                    title: 'Success 👍',
                     html: message,
                     confirmButtonText:"Ok",
                     focusConfirm: false,
                     icon: "success",
+                  }).then(() => {
+                    navigate('/all-users');
                   })
                    
                  }else{
                   Swal.fire({
-                    title: 'Error',
+                    title: 'Error 😔',
                     html: message,
                     confirmButtonText:"Ok",
                     focusConfirm: false,

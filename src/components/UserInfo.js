@@ -70,7 +70,7 @@ export default function UserInfo(props) {
                     marginBottom: 4,
 
                 }}>
-                    {addUser ? "Add User" : "Edit User"}
+                   ✨ {addUser ? "Add User" : "Edit User"}
 
                 </Typography>
                 <Grid container spacing={2} sx={{

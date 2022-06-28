@@ -56,7 +56,7 @@ export default function Register() {
               const status = response.data.status;
                  if(status){
                   Swal.fire({
-                    title: 'Success Registration',
+                    title: 'Success Registration 👍',
                     html: message,
                     confirmButtonText:"Ok",
                     focusConfirm: false,
@@ -67,7 +67,7 @@ export default function Register() {
                    
                  }else{
                   Swal.fire({
-                    title: 'Error Registration',
+                    title: 'Error Registration 😔',
                     html: message,
                     confirmButtonText:"Ok",
                     focusConfirm: false,

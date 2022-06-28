@@ -34,7 +34,7 @@ export default function MyProfile() {
       validationSchema: validationSchema,
       onSubmit: async (values) => {
 
-        values.id = auth.id;
+        values.id = auth.currentUser.id;
         await axios.post(`/change-password.php`, values).then((response) => {
 
           const message = response.data.message;
@@ -42,7 +42,7 @@ export default function MyProfile() {
 
           if (status) {
             Swal.fire({
-              title: 'Success',
+              title: 'Success 👍',
               html: message,
               confirmButtonText: "Ok",
               focusConfirm: false,
@@ -50,7 +50,7 @@ export default function MyProfile() {
             })
           } else {
             Swal.fire({
-              title: 'Error',
+              title: 'Error 😔',
               html: message,
               confirmButtonText: "Ok",
               focusConfirm: false,
@@ -65,7 +65,7 @@ export default function MyProfile() {
   return (
     <>
 
-    <ViewEditUser userId={auth.id} />
+    <ViewEditUser userId={auth.currentUser.id} />
 
     <Container component="main" maxWidth="md">
                 <Box component='form' onSubmit={formik.handleSubmit} sx={{ flexGrow: 1 }}>
@@ -74,7 +74,7 @@ export default function MyProfile() {
                         marginBottom: 4,
 
                     }}>
-                        Change Password
+                       ✨ Change Password
                     </Typography>
                     <Grid container spacing={2} sx={{
                         alignItems: 'center',

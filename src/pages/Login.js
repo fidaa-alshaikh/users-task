@@ -56,10 +56,10 @@ export default function Login(props) {
           localStorage.setItem("jwtToken", accessToken);
           // setAuth({accessToken});
           props.loginCallback();
-          navigate('/all-users');
+          navigate('/');
         } else {
            Swal.fire({
-            title: 'Error login',
+            title: 'Error login 😔',
             html: message,
             confirmButtonText:"Ok",
             focusConfirm: false,

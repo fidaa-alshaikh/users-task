@@ -33,6 +33,6 @@ if($res) {
        echo json_encode($response);
     }
 }else{
-    $response = ['status' => true, 'message' => 'Failed to update password'];
+    $response = ['status' => false, 'message' => 'Failed to update password'];
     echo json_encode($response);
 }
