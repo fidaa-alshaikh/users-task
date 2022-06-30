@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from "../services/axios.js";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 //Formik
 import { useFormik } from 'formik';
@@ -29,8 +29,11 @@ export default function AddUser() {
     initialValues: {},
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+             // eslint-disable-next-line
              values.gender? values.gender= values.gender : values.gender = null;
+             // eslint-disable-next-line
              values.city? values.city= values.city : values.city = null;
+             // eslint-disable-next-line
              values.country? values.country= values.country : values.country = null;
 
              await axios.post(`/add-user.php`, values).then(function(response){

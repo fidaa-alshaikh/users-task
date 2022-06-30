@@ -1,15 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "../services/axios.js";
-import AuthContext from '../contexts/AuthProvider.js';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -40,7 +36,7 @@ const validationSchema = yup.object({
 const theme = createTheme();
 
 export default function Login(props) {
-  const { setAuth } = useContext(AuthContext); // set auth state and store it in auth in AuthProvider file
+  // const { setAuth } = useContext(AuthContext); // set auth state and store it in auth in AuthProvider file
   const navigate = useNavigate();
 
   const formik = useFormik({

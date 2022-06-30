@@ -55,6 +55,7 @@ export default function AllUsers() {
       setUser(response.data.user);
 
     }).catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function deleteUser(id) {
@@ -178,14 +179,14 @@ export default function AllUsers() {
                       </TableCell>
                       <TableCell align="left">{row.full_name}</TableCell>
                       <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.gender != '' ? row.gender : '-'}</TableCell>
-                      <TableCell align="left">{row.city != '' ? row.city : '-'}</TableCell>
-                      <TableCell align="left">{row.country != '' ? row.country : '-'}</TableCell>
+                      <TableCell align="left">{row.gender !== '' ? row.gender : '-'}</TableCell>
+                      <TableCell align="left">{row.city !== '' ? row.city : '-'}</TableCell>
+                      <TableCell align="left">{row.country !== '' ? row.country : '-'}</TableCell>
 
                       <TableCell >
                         {
                           // (auth.role && auth.role == 'admin') || row.id == auth.id? // Need refresh token to be used
-                          (user.role && user.role == 'admin') || row.id == user.id ?
+                          (user.role && user.role === 'admin') || row.id === user.id ?
                             <Stack direction="row" spacing={1}>
                               <Link to={`user/${row.id}/edit`} style={{ marginRight: "10px" }}>
                                 <IconButton aria-label="edit" color="primary">
@@ -193,7 +194,7 @@ export default function AllUsers() {
                                   </EditIcon>
                                 </IconButton>
                               </Link>
-                              {row.id == user.id ?
+                              {row.id === user.id ?
                                 <></>
                                 :
                                 <IconButton aria-label="delete" color="error" onClick={() => deleteUser(row.id)}>

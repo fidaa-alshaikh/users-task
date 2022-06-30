@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "../services/axios.js";
-import { createUser } from "../services/User/User.js";
 // const UrlPath = 'http://localhost/users-task/api/users/';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
