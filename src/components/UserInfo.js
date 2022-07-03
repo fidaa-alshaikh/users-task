@@ -85,7 +85,6 @@ export default function UserInfo(props) {
                             fullWidth
                             id="full_name"
                             label="Full Name"
-                            autoFocus
                             value={formik.values.full_name || ''}
                             onChange={formik.handleChange}
                             error={formik.touched.full_name && Boolean(formik.errors.full_name)}
@@ -101,7 +100,6 @@ export default function UserInfo(props) {
                             id="email"
                             name="email"
                             label="Email Address"
-                            autoFocus
                             disabled={addUser ? false : true}
                             value={formik.values.email || ''}
                             onChange={formik.handleChange}
@@ -163,6 +161,23 @@ export default function UserInfo(props) {
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <TextField
+                            name="state"
+                            select
+                            fullWidth
+                            id="state"
+                            label="State"
+                            value={formik.values.state || ''}
+                            onChange={formik.handleChange}
+                        >
+                            {cities.map((option, key) => (
+                                <MenuItem key={key} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12} sm={6} >
+                        <TextField
                             name="city"
                             select
                             fullWidth
@@ -177,6 +192,16 @@ export default function UserInfo(props) {
                                 </MenuItem>
                             ))}
                         </TextField>
+                    </Grid>
+                    <Grid item xs={12} sm={6} >
+                        <TextField
+                            name="street"
+                            fullWidth
+                            id="street"
+                            label="Street"
+                            value={formik.values.street || ''}
+                            onChange={formik.handleChange}
+                        />
                     </Grid>
                     <Grid item xs={12} sm={12} >
                         <Button
