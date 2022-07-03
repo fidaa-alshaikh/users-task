@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import axios from "../services/axios.js";
-import UserInfo from '../components/UserInfo.js';
 import AuthContext from '../contexts/AuthProvider.js';
 
 import Grid from '@mui/material/Grid';

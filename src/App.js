@@ -4,10 +4,7 @@ import './test.php';
 
 import {
   Routes,
-  Route,
-  Router,
-  Navigate
-} from 'react-router-dom';
+  Route} from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
@@ -19,7 +16,6 @@ import Register from './pages/Register';
 import PageNotFound from './pages/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthContext from './contexts/AuthProvider.js';
-import axios from "./services/axios.js";
 import AddUser from './pages/AddUser';
 import MyProfile from './pages/MyProfile';
 
@@ -29,9 +25,8 @@ import jwt_decode from "jwt-decode";
 function App() {
 
  
-  const {auth, setAuth} = useContext(AuthContext);
+  const {setAuth} = useContext(AuthContext);
   const [dataLoading, setDataLoading] = useState(false);
-  const [inputs, setInputs] = useState([]);
 
 
   const userLogin = () => {
@@ -49,7 +44,9 @@ function App() {
  
 
 
-  useEffect(userLogin, []);
+  useEffect(userLogin, 
+    [setAuth]
+    );
 
   return (
     <div >

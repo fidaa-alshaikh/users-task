@@ -28,7 +28,7 @@ export default function ViewEditUser(props) {
             setInputs(response.data.user);
 
         }).catch((err) => console.log(err));
-    }, [])
+    }, [userId, id])
 
     //EDIT USER
     const formik = useFormik({
