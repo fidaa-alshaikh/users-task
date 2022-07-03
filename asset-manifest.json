@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "http://fidaa-alshaikh.github.io/users-task/static/css/main.df8d68d9.css",
+    "main.js": "http://fidaa-alshaikh.github.io/users-task/static/js/main.b6351413.js",
+    "static/js/787.f7cc8f03.chunk.js": "http://fidaa-alshaikh.github.io/users-task/static/js/787.f7cc8f03.chunk.js",
+    "index.html": "http://fidaa-alshaikh.github.io/users-task/index.html",
+    "static/media/test.php": "http://fidaa-alshaikh.github.io/users-task/static/media/test.e25ef6b5e6082dfde561.php",
+    "main.df8d68d9.css.map": "http://fidaa-alshaikh.github.io/users-task/static/css/main.df8d68d9.css.map",
+    "main.b6351413.js.map": "http://fidaa-alshaikh.github.io/users-task/static/js/main.b6351413.js.map",
+    "787.f7cc8f03.chunk.js.map": "http://fidaa-alshaikh.github.io/users-task/static/js/787.f7cc8f03.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.df8d68d9.css",
+    "static/js/main.b6351413.js"
+  ]
+}
