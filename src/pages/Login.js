@@ -43,7 +43,7 @@ export default function Login(props) {
     initialValues: {},
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      await axios.post(`/login-user.php`, values).then(function (response) {
+      await axios.post(`users/login-user.php`, values).then(function (response) {
         const status = response.data.status;
         const message = response.data.message;
         const accessToken = response?.data?.access_token;

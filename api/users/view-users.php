@@ -2,7 +2,12 @@
 
 require('../api-cofig.php');
 
-$sql = 'SELECT id, full_name, email, gender, city, country FROM tbl_user';
+$sql = 'SELECT tbl_user.*, tbl_city.city_name, tbl_city.state_id, tbl_state.state_name, tbl_state.country_id, tbl_country.country_name 
+From tbl_user
+LEFT OUTER JOIN tbl_city ON tbl_city.city_id=tbl_user.city_id 
+LEFT OUTER JOIN tbl_state ON tbl_state.state_id= tbl_city.state_id 
+LEFT OUTER JOIN tbl_country ON tbl_country.country_id= tbl_state.country_id;
+';
 $res = mysqli_query($conn, $sql);
 
 if ($res) {

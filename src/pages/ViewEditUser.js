@@ -22,10 +22,17 @@ export default function ViewEditUser(props) {
     const {userId} = props;
     const { id } = useParams();
     const [inputs, setInputs] = useState([]);
+    const [cityId, setCityId] = useState(0);
+
+    function getCityId(event){
+        const { cityId } = event.currentTarget.dataset;
+        setCityId(cityId)
+      }
 
     useEffect(() => {
-        axios.get(`/edit-user.php/${userId??id}`).then((response) => {
+        axios.get(`users/edit-user.php/${userId??id}`).then((response) => {
             setInputs(response.data.user);
+            console.log(response.data.user);
 
         }).catch((err) => console.log(err));
     }, [userId, id])
@@ -37,9 +44,16 @@ export default function ViewEditUser(props) {
             validationSchema: validationSchema,
             onSubmit: async (values) => {
 
-                await axios.put(`/edit-user.php`, values).then((response) => {
+                values.city_id = cityId;
+                // eslint-disable-next-line
+                values.gender? values.gender= values.gender : values.gender = null;
+                // eslint-disable-next-line
+                values.street? values.street= values.street : values.street = null;
+
+                await axios.put(`users/edit-user.php`, values).then((response) => {
 
                     const message = response.data.message;
+                   
                     const status = response.data.status;
                     if (status) {
                         Swal.fire({
@@ -65,7 +79,7 @@ export default function ViewEditUser(props) {
 
     return (
 
-            <UserInfo formik={formik} />
+            <UserInfo formik={formik} inputs={inputs} getCityId={getCityId}/>
 
         //////////// NORMAL INPUTS
         // <div>

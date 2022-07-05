@@ -4,14 +4,12 @@ require('../api-cofig.php');
 //USE PATH
 $method = $_SERVER['REQUEST_METHOD'];
 
-$stateInfo = json_decode(file_get_contents("php://input"),true);
-$name = $stateInfo['name'];
-$id = $stateInfo['id'];
-$country_id = $stateInfo['country_id'];
-
-
 switch ($method) {
     case 'GET':
+        $path = explode('/', $_SERVER['REQUEST_URI']);
+      if(isset($path[5])){
+
+        $country_id = $path[5];
         $sql = 'SELECT * FROM tbl_state WHERE country_id = ' . $country_id; 
         $res = mysqli_query($conn, $sql);
 
@@ -29,11 +27,15 @@ switch ($method) {
         $response = ['status' => false, 'message' => 'Request failed.'];
     }
         echo json_encode($response);
+     }
 
         break;
     case 'POST':
+        $stateInfo = json_decode(file_get_contents("php://input"),true);
+        $state_name = $stateInfo['state_name'];
+        $country_id = $stateInfo['country_id'];
 
-        $sql = "INSERT INTO tbl_state (name, country_id) VALUES ('$name', '$country_id')";
+        $sql = "INSERT INTO tbl_state (state_name, country_id) VALUES ('$state_name', '$country_id')";
         $res = mysqli_query($conn, $sql);
 
         if ($res) {
@@ -46,8 +48,12 @@ switch ($method) {
         break;
 
     case 'PUT':
+        $stateInfo = json_decode(file_get_contents("php://input"),true);
+        $state_name = $stateInfo['state_name'];
+        $id = $stateInfo['id'];
 
-        $sql =  "UPDATE tbl_state SET name='$name' WHERE id='$id'";
+
+        $sql =  "UPDATE tbl_state SET state_name='$state_name' WHERE id='$id'";
         $res = mysqli_query($conn, $sql);
         if ($res) {
           $response = ['status' => true, 'message' => 'State updated successfully.'];
@@ -60,6 +66,8 @@ switch ($method) {
         
         break;
     case 'DELETE':
+        $stateInfo = json_decode(file_get_contents("php://input"),true);
+        $id = $stateInfo['id'];
 
         $sql =  "DELETE FROM tbl_state WHERE id='$id'";
         $res = mysqli_query($conn, $sql);

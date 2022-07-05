@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from "../services/axios.js";
 import { useNavigate } from 'react-router-dom';
 
@@ -20,23 +20,39 @@ const validationSchema = yup.object({
     .string('Enter your password')
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
+    // CHECK REGISTER
+  // country_name: yup.string('Enter your country').required('Country is required'),
+  // state_name: yup.string('Enter your state').required('State is required'),
+  // city_name: yup.string('Enter your city').required('City is required'),
 });
+
+
+// const getCityId = (event) => {
+//   const { myId } = event.currentTarget.dataset;
+//   return myId;
+// }
 
 export default function AddUser() {
   const navigate = useNavigate();
+  const [cityId, setCityId] = useState(0);
+
+  function getCityId(event){
+    const { cityId } = event.currentTarget.dataset;
+    setCityId(cityId)
+  }
 
   const formik = useFormik({
     initialValues: {},
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+              values.city_id = cityId;
              // eslint-disable-next-line
              values.gender? values.gender= values.gender : values.gender = null;
              // eslint-disable-next-line
-             values.city? values.city= values.city : values.city = null;
-             // eslint-disable-next-line
-             values.country? values.country= values.country : values.country = null;
+             values.street? values.street= values.street : values.street = null;
 
-             await axios.post(`/add-user.php`, values).then(function(response){
+
+             await axios.post(`users/add-user.php`, values).then(function(response){
               const message = response.data.message;
               const status = response.data.status;
                  if(status){
@@ -66,6 +82,6 @@ export default function AddUser() {
   })
 
   return (
-           <UserInfo formik={formik} addUser/>
+           <UserInfo formik={formik} addUser getCityId={getCityId}/>
   )
 }

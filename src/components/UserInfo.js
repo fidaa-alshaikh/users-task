@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import axios from "../services/axios.js";
 const genders = [
     {
         value: 'Male',
@@ -27,39 +27,92 @@ const genders = [
     }
 ];
 
-const countries = [
-    {
-        value: 'Saudi Arabia',
-        label: 'Saudi Arabia',
-    },
-    {
-        value: undefined,
-        label: '',
-    }
-];
+// const countries = [
+//     {
+//         value: 'Saudi Arabia',
+//         label: 'Saudi Arabia',
+//     },
+//     {
+//         value: undefined,
+//         label: '',
+//     }
+// ];
 
-const cities = [
-    {
-        value: 'Alhassa',
-        label: 'Alhassa',
-    },
-    {
-        value: 'Riyadh',
-        label: 'Riyadh',
-    },
-    {
-        value: 'Jeddah',
-        label: 'Jeddah',
-    },
-    {
-        value: undefined,
-        label: '',
-    }
-];
+// const cities = [
+//     {
+//         value: 'Alhassa',
+//         label: 'Alhassa',
+//     },
+//     {
+//         value: 'Riyadh',
+//         label: 'Riyadh',
+//     },
+//     {
+//         value: 'Jeddah',
+//         label: 'Jeddah',
+//     },
+//     {
+//         value: undefined,
+//         label: '',
+//     }
+// ];
 
 export default function UserInfo(props) {
-    const { formik, addUser } = props;
+    const { formik, addUser, getCityId, inputs } = props;
+    const [countries, setCountries] = useState([]);
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+
+    useEffect(() => { 
+        axios.get(`/addresses/country.php`).then((response) => {
+            setCountries(response.data.countries);
+
+        }).catch((err) => console.log(err));
+        // const country_id = inputs?.country_id
+        // const state_id = inputs?.state_id
+        
+        // if(formik.values.country !== '' || formik.values.state !== '') 
+        // {
+        //     axios.get(`/addresses/state.php/${country_id}`).then((response) => {
+        //         setStates(response.data.states);
+           
+    
+        //     }).catch((err) => console.log(err));
+
+        //     axios.get(`/addresses/city.php/${state_id}`).then((response) => {
+        //         setCities(response.data.cities);
+            
+    
+        //     }).catch((err) => console.log(err));
+           
+        // }
+
+
+    },[
+        //inputs
+    ])
+
+  
+
+    const getStates = event => {
+        const { countryId } = event.currentTarget.dataset;
+        axios.get(`/addresses/state.php/${countryId}`).then((response) => {
+            setStates(response.data.states);
+
+        }).catch((err) => console.log(err));
+    }
+
+    const getCities = event => {
+        const { stateId } = event.currentTarget.dataset;
+        axios.get(`/addresses/city.php/${stateId}`).then((response) => {
+            setCities(response.data.cities);
+
+        }).catch((err) => console.log(err));
+    }
+
+
     return (
+        
         <Container component="main" maxWidth="md">
             <Box component='form' onSubmit={formik.handleSubmit} sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom component="div" sx={{
@@ -144,51 +197,66 @@ export default function UserInfo(props) {
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <TextField
-                            name="country"
+                            name="country_name"
                             select
                             fullWidth
-                            id="country"
+                            id="country_name"
                             label="Country"
-                            value={formik.values.country || ''}
+                            value={formik.values.country_name || ''}
                             onChange={formik.handleChange}
+                            error={formik.touched.country_name && Boolean(formik.errors.country_name)}
+                            helperText={formik.touched.country_name && formik.errors.country_name}
                         >
                             {countries.map((option, key) => (
-                                <MenuItem key={key} value={option.value}>
-                                    {option.label}
+                                <MenuItem key={key} value={option.country_name}
+                                data-country-id={option.country_id}
+                                onClick={getStates}
+>
+                                    {option.country_name}
                                 </MenuItem>
                             ))}
                         </TextField>
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <TextField
-                            name="state"
+                            name="state_name"
                             select
                             fullWidth
-                            id="state"
+                            id="state_name"
                             label="State"
-                            value={formik.values.state || ''}
+                            value={formik.values.state_name || ''}
                             onChange={formik.handleChange}
+                            error={formik.touched.state_name && Boolean(formik.errors.state_name)}
+                            helperText={formik.touched.state_name && formik.errors.state_name}
                         >
-                            {cities.map((option, key) => (
-                                <MenuItem key={key} value={option.value}>
-                                    {option.label}
+                            {states?.map((option, key) => (
+                                <MenuItem key={key} value={option.state_name}
+                                data-state-id={option.state_id}
+                                onClick={getCities}
+    >
+                                    {option.state_name}
                                 </MenuItem>
                             ))}
                         </TextField>
                     </Grid>
                     <Grid item xs={12} sm={6} >
                         <TextField
-                            name="city"
+                            name="city_name"
                             select
                             fullWidth
-                            id="city"
+                            id="city_name"
                             label="City"
-                            value={formik.values.city || ''}
+                            value={formik.values.city_name || ''}
                             onChange={formik.handleChange}
+                            error={formik.touched.city_name && Boolean(formik.errors.city_name)}
+                            helperText={formik.touched.city_name && formik.errors.city_name}
                         >
-                            {cities.map((option, key) => (
-                                <MenuItem key={key} value={option.value}>
-                                    {option.label}
+                            {cities?.map((option, key) => (
+                                <MenuItem key={key} value={option.city_name}
+                                data-city-id={option.city_id}
+                                 onClick={(event)=>{getCityId(event)}}
+                                >
+                                    {option.city_name}
                                 </MenuItem>
                             ))}
                         </TextField>
@@ -216,6 +284,7 @@ export default function UserInfo(props) {
                 </Grid>
 
             </Box>
+
         </Container>
     )
 }

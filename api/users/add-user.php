@@ -11,10 +11,9 @@ if (isset($userInfo['email']) && isset($userInfo['full_name']) &&  isset($userIn
 $full_name = $userInfo['full_name'];
 $email = strtolower($userInfo['email']);
 $password = md5($userInfo['password']); // encrypted password
-$gender = $userInfo['gender'];
-$city = $userInfo['city'];
-$country = $userInfo['country'];
-
+// $gender = $userInfo['gender'];
+// $city_id = $userInfo['city_id'];
+// $street = $userInfo['street'];
 
 // Check if email exists
 $sql_1 = "SELECT email FROM tbl_user WHERE email = '$email'";
@@ -28,7 +27,7 @@ if(mysqli_num_rows($res_1)) {
 else
 {
 //2. SQL query to save data into database
-$sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password', gender='$gender', city='$city', country='$country' ";
+$sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password'";
 // execute the query into database
 $res = mysqli_query($conn, $sql_2) or die(mysqli_error($conn));
 

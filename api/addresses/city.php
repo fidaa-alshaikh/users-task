@@ -4,13 +4,12 @@ require('../api-cofig.php');
 //USE PATH
 $method = $_SERVER['REQUEST_METHOD'];
 
-$cityInfo = json_decode(file_get_contents("php://input"),true);
-$name = $cityInfo['name'];
-$id = $cityInfo['id'];
-$state_id = $cityInfo['state_id'];
-
 switch ($method) {
     case 'GET':
+        $path = explode('/', $_SERVER['REQUEST_URI']);
+      if(isset($path[5])){
+
+        $state_id = $path[5];
         $sql = 'SELECT * FROM tbl_city WHERE state_id = ' . $state_id;
         $res = mysqli_query($conn, $sql);
 
@@ -28,11 +27,15 @@ switch ($method) {
         $response = ['status' => false, 'message' => 'Request failed.'];
     }
         echo json_encode($response);
+           }
 
         break;
     case 'POST':
+        $cityInfo = json_decode(file_get_contents("php://input"),true);
+        $city_name = $cityInfo['city_name'];
+        $state_id = $cityInfo['state_id'];
 
-        $sql = "INSERT INTO tbl_city (name, state_id) VALUES ('$name', '$state_id')";
+        $sql = "INSERT INTO tbl_city (city_name, state_id) VALUES ('$city_name', '$state_id')";
         $res = mysqli_query($conn, $sql);
 
         if ($res) {
@@ -45,8 +48,11 @@ switch ($method) {
         break;
 
     case 'PUT':
+        $cityInfo = json_decode(file_get_contents("php://input"),true);
+        $city_name = $cityInfo['city_name'];
+        $id = $cityInfo['id'];
 
-        $sql =  "UPDATE tbl_city SET name='$name' WHERE id='$id'";
+        $sql =  "UPDATE tbl_city SET city_name='$city_name' WHERE id='$id'";
         $res = mysqli_query($conn, $sql);
         if ($res) {
           $response = ['status' => true, 'message' => 'City updated successfully.'];
@@ -59,6 +65,8 @@ switch ($method) {
         
         break;
     case 'DELETE':
+        $cityInfo = json_decode(file_get_contents("php://input"),true);
+        $id = $cityInfo['id'];
 
         $sql =  "DELETE FROM tbl_city WHERE id='$id'";
         $res = mysqli_query($conn, $sql);

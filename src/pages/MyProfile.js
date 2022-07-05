@@ -34,7 +34,7 @@ export default function MyProfile() {
       onSubmit: async (values) => {
 
         values.id = auth.currentUser.id;
-        await axios.post(`/change-password.php`, values).then((response) => {
+        await axios.post(`users/change-password.php`, values).then((response) => {
 
           const message = response.data.message;
           const status = response.data.status;

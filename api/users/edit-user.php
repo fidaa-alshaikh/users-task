@@ -10,13 +10,19 @@ switch ($method) {
       if(isset($path[5])){
 
         $id = $path[5];
-        $sql = 'SELECT id, role, full_name, email, city, gender, country FROM tbl_user WHERE id = '. $id;
+        $sql = 'SELECT tbl_user.*, tbl_city.city_name, tbl_city.state_id, tbl_state.state_name, tbl_state.country_id, tbl_country.country_name 
+        From tbl_user 
+        LEFT OUTER JOIN tbl_city ON tbl_city.city_id=tbl_user.city_id 
+        LEFT OUTER JOIN tbl_state ON tbl_state.state_id= tbl_city.state_id 
+        LEFT OUTER JOIN tbl_country ON tbl_country.country_id= tbl_state.country_id
+         WHERE tbl_user.id = '. $id;
   
         $res = mysqli_query($conn, $sql);
   
   if ($res) {
       $user = mysqli_fetch_assoc($res);
       $response = ['status' => true, 'user' => $user];
+     
     } else {
       $response = ['status' => false, 'user' => 'Failed.'];
     }
@@ -30,10 +36,12 @@ switch ($method) {
       $inputs = json_decode(file_get_contents("php://input"),true);
       $id = $inputs["id"];
       $full_name = $inputs["full_name"];
-      $country = $inputs["country"];
       $gender = $inputs["gender"];
-      $city = $inputs["city"];
-      $sql =  "UPDATE tbl_user SET full_name='$full_name', gender='$gender',city='$city',country='$country'  WHERE id='$id'";
+      $city_id = $inputs["city_id"];
+      $street = $inputs["street"];
+      $gender? $gender= "'".$gender."'" : $gender = 'NULL';
+      $street? $street= "'".$street."'" : $street = 'NULL';
+      $sql =  "UPDATE tbl_user SET full_name = '$full_name', gender  = $gender ,city_id = '$city_id' , street= $street  WHERE id = '$id'";
       $res = mysqli_query($conn, $sql);
       if ($res) {
         $response = ['status' => true, 'message' => 'Record updated successfully.'];

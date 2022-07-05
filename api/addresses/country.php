@@ -4,10 +4,6 @@ require('../api-cofig.php');
 //USE PATH
 $method = $_SERVER['REQUEST_METHOD'];
 
-$countryInfo = json_decode(file_get_contents("php://input"),true);
-$name = $countryInfo['name'];
-$id = $countryInfo['id'];
-
 switch ($method) {
     case 'GET':
         $sql = 'SELECT * FROM tbl_country';
@@ -30,8 +26,10 @@ switch ($method) {
         echo json_encode($response);
         break;
     case 'POST':
+        $countryInfo = json_decode(file_get_contents("php://input"),true);
+        $country_name = $countryInfo['country_name'];
 
-        $sql = "INSERT INTO tbl_country (name) VALUES ('$name')";
+        $sql = "INSERT INTO tbl_country (country_name) VALUES ('$country_name')";
         $res = mysqli_query($conn, $sql);
 
         if ($res) {
@@ -44,8 +42,11 @@ switch ($method) {
         break;
 
     case 'PUT':
+        $countryInfo = json_decode(file_get_contents("php://input"),true);
+        $country_name = $countryInfo['country_name'];
+        $id = $countryInfo['id'];
 
-        $sql =  "UPDATE tbl_country SET name='$name' WHERE id='$id'";
+        $sql =  "UPDATE tbl_country SET country_name='$country_name' WHERE id='$id'";
         $res = mysqli_query($conn, $sql);
         if ($res) {
           $response = ['status' => true, 'message' => 'Country updated successfully.'];
@@ -58,6 +59,8 @@ switch ($method) {
         
         break;
     case 'DELETE':
+        $countryInfo = json_decode(file_get_contents("php://input"),true);
+        $id = $countryInfo['id'];
 
         $sql =  "DELETE FROM tbl_country WHERE id='$id'";
         $res = mysqli_query($conn, $sql);

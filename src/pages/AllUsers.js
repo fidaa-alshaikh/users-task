@@ -27,8 +27,8 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import SearchBar from '../components/SearchBar.js';
 
-function createData(key, id, full_name, email, gender, city, country) {
-  return { key, id, full_name, email, gender, city, country };
+function createData(key, id, full_name, email, gender, city, state, country) {
+  return { key, id, full_name, email, gender, city, state, country };
 }
 
 
@@ -38,7 +38,7 @@ export default function AllUsers() {
   const [status, setStatus] = useState([]);
 
   function getAllUsers() {
-    axios.get(`/view-users.php`).then((response) => {
+    axios.get(`users/view-users.php`).then((response) => {
       setUsers(response.data.users);
       setStatus(response.data.status);
     }).catch((err) => console.log(err));
@@ -51,7 +51,7 @@ export default function AllUsers() {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    axios.get(`/edit-user.php/${auth.currentUser.id}`).then((response) => {
+    axios.get(`users/edit-user.php/${auth.currentUser.id}`).then((response) => {
       setUser(response.data.user);
 
     }).catch((err) => console.log(err));
@@ -70,7 +70,7 @@ export default function AllUsers() {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`/delete-user.php`, { data: { id: id } }).then((response) => {
+        axios.delete(`users/delete-user.php`, { data: { id: id } }).then((response) => {
           getAllUsers();
           Swal.fire(
             'Deleted!',
@@ -100,20 +100,24 @@ export default function AllUsers() {
           row
           .email
           .toLowerCase()
-          .includes(searchField.toLowerCase()) ||
-          row
-          .gender
-          .toLowerCase()
-          .includes(searchField.toLowerCase()) ||
-          row
-          .city
-          .toLowerCase()
-          .includes(searchField.toLowerCase()) ||
-          row
-          .country
-          .toLowerCase()
-          .includes(searchField.toLowerCase())
-          
+          .includes(searchField.toLowerCase()) 
+          // ||
+          // row
+          // .gender
+          // .toLowerCase()
+          // .includes(searchField.toLowerCase()) ||
+          // row
+          // .city_name
+          // .toLowerCase()
+          // .includes(searchField.toLowerCase()) ||
+          // row
+          // .state_name
+          // .toLowerCase()
+          // .includes(searchField.toLowerCase()) ||
+          // row
+          // .country_name
+          // .toLowerCase()
+          // .includes(searchField.toLowerCase())
           ) 
       }
     );
@@ -121,7 +125,7 @@ export default function AllUsers() {
   }
 
 
-  const rows = users?.map((user, key) => createData(key, user.id, user.full_name, user.email, user.gender, user.city, user.country));
+  const rows = users?.map((user, key) => createData(key, user.id, user.full_name, user.email, user.gender, user.city_name, user.state_name, user.country_name));
   const filteredRows = searchFilter(rows);
   return (
 
@@ -162,6 +166,7 @@ export default function AllUsers() {
                   <TableCell align="left">Email</TableCell>
                   <TableCell align="left">Gender</TableCell>
                   <TableCell align="left">City</TableCell>
+                  <TableCell align="left">State</TableCell>
                   <TableCell align="left">Country</TableCell>
                   <TableCell align="left"></TableCell>
                 </TableRow>
@@ -179,9 +184,10 @@ export default function AllUsers() {
                       </TableCell>
                       <TableCell align="left">{row.full_name}</TableCell>
                       <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.gender !== '' ? row.gender : '-'}</TableCell>
-                      <TableCell align="left">{row.city !== '' ? row.city : '-'}</TableCell>
-                      <TableCell align="left">{row.country !== '' ? row.country : '-'}</TableCell>
+                      <TableCell align="left">{row.gender ??'-'}</TableCell>
+                      <TableCell align="left">{row.city ?? '-'}</TableCell>
+                      <TableCell align="left">{row.state ?? '-'}</TableCell>
+                      <TableCell align="left">{row.country ?? '-'}</TableCell>
 
                       <TableCell >
                         {
@@ -218,7 +224,9 @@ export default function AllUsers() {
                 }
               </TableBody>
             </Table>
+        
           </TableContainer>
+         
           {/* NORMAL TABLE */}
           {/* <table>
             <thead>
@@ -251,7 +259,7 @@ export default function AllUsers() {
 
 
         </Grid>
-
+        <br/><br/><br/>
       </Box>
     </Container>
 
