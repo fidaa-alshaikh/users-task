@@ -14,6 +14,9 @@ const validationSchema = yup.object({
     full_name: yup
         .string('Enter your name')
         .required('Name is required'),
+        country_name: yup.string().required('Country is required'),
+        state_name: yup.string().required('State is required'),
+        city_name: yup.string().required('City is required'),
 });
 
 
@@ -32,14 +35,15 @@ export default function ViewEditUser(props) {
     useEffect(() => {
         axios.get(`users/edit-user.php/${userId??id}`).then((response) => {
             setInputs(response.data.user);
-            console.log(response.data.user);
-
         }).catch((err) => console.log(err));
     }, [userId, id])
 
     //EDIT USER
     const formik = useFormik({
-            initialValues: inputs,
+            initialValues: {...inputs, 
+                country_name: inputs.country_name?? "",
+                state_name:inputs.state_name?? "",
+                city_name: inputs.city_name?? ""},
             enableReinitialize: true,
             validationSchema: validationSchema,
             onSubmit: async (values) => {

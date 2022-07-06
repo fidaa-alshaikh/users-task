@@ -15,7 +15,7 @@ export default function SearchBar(props) {
     <Box sx={{ '& > :not(style)': { m: 1 } }}>
       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
         <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-        <TextField id="input-with-sx" label="Search all" variant="standard"
+        <TextField id="input-with-sx" label="Search by name, email" variant="standard"
         value={searchField}
         onChange={handleChange} />
       </Box>

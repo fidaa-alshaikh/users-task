@@ -8,7 +8,16 @@ import * as yup from 'yup';
 import Swal from "sweetalert2";
 import UserInfo from '../components/UserInfo.js';
 
-const validationSchema = yup.object({
+
+
+export default function AddUser() {
+  const navigate = useNavigate();
+  const [cityId, setCityId] = useState(0);
+
+  
+let validationSchema = "";
+
+validationSchema = yup.object({
   full_name: yup
   .string('Enter your name')
   .required('Name is required'),
@@ -21,20 +30,11 @@ const validationSchema = yup.object({
     .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
     // CHECK REGISTER
-  // country_name: yup.string('Enter your country').required('Country is required'),
-  // state_name: yup.string('Enter your state').required('State is required'),
-  // city_name: yup.string('Enter your city').required('City is required'),
+  country_name: yup.string().required('Country is required'),
+  state_name: yup.string().required('State is required'),
+  city_name: yup.string().required('City is required'),
 });
 
-
-// const getCityId = (event) => {
-//   const { myId } = event.currentTarget.dataset;
-//   return myId;
-// }
-
-export default function AddUser() {
-  const navigate = useNavigate();
-  const [cityId, setCityId] = useState(0);
 
   function getCityId(event){
     const { cityId } = event.currentTarget.dataset;
@@ -42,7 +42,11 @@ export default function AddUser() {
   }
 
   const formik = useFormik({
-    initialValues: {},
+    initialValues: {
+      country_name: "",
+      state_name:"",
+      city_name:""
+    },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
               values.city_id = cityId;
