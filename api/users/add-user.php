@@ -2,6 +2,7 @@
 require('../api-cofig.php');
 
 $userInfo = json_decode(file_get_contents("php://input"),true); // convert JSON to associative array
+// $imageUrl = $userInfo["imageUrl"];
 
 if (isset($userInfo['email']) && isset($userInfo['full_name']) &&  isset($userInfo['password']) 
 && !empty($userInfo['email']) && !empty($userInfo['full_name']) && !empty($userInfo['password']))
@@ -27,7 +28,13 @@ if(mysqli_num_rows($res_1)) {
 else
 {
 //2. SQL query to save data into database
-$sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password'";
+$gender = $userInfo["gender"];
+$city_id = $userInfo["city_id"];
+$street = $userInfo["street"];
+// $imageUrl = $userInfo["imageUrl"];
+$gender? $gender= "'".$gender."'" : $gender = 'NULL';
+$street? $street= "'".$street."'" : $street = 'NULL';
+$sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password', gender  = $gender ,city_id = '$city_id' , street= $street";
 // execute the query into database
 $res = mysqli_query($conn, $sql_2) or die(mysqli_error($conn));
 

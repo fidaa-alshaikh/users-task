@@ -13,6 +13,7 @@ import UserInfo from '../components/UserInfo.js';
 export default function AddUser() {
   const navigate = useNavigate();
   const [cityId, setCityId] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   
 let validationSchema = "";
@@ -41,6 +42,20 @@ validationSchema = yup.object({
     setCityId(cityId)
   }
 
+  // Create an object of formData
+  const formData = new FormData();
+    
+  // Update the formData object
+  if(selectedImage){
+    formData.append(
+      "myFile",
+      selectedImage[0].file,
+      selectedImage[0].file.name
+    );
+
+    console.log(formData)
+  }
+
   const formik = useFormik({
     initialValues: {
       country_name: "",
@@ -49,6 +64,14 @@ validationSchema = yup.object({
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+              if(selectedImage){
+                formData.append(
+                  "myFile",
+                  selectedImage[0].file,
+                  selectedImage[0].file.name
+                );
+                values.imageUrl = formData;
+              }
               values.city_id = cityId;
              // eslint-disable-next-line
              values.gender? values.gender= values.gender : values.gender = null;
@@ -86,6 +109,6 @@ validationSchema = yup.object({
   })
 
   return (
-           <UserInfo formik={formik} addUser getCityId={getCityId}/>
+           <UserInfo formik={formik} addUser getCityId={getCityId} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
   )
 }
