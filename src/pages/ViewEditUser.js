@@ -26,6 +26,7 @@ export default function ViewEditUser(props) {
     const { id } = useParams();
     const [inputs, setInputs] = useState([]);
     const [cityId, setCityId] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     function getCityId(event){
         const { cityId } = event.currentTarget.dataset;
@@ -35,6 +36,10 @@ export default function ViewEditUser(props) {
     useEffect(() => {
         axios.get(`users/edit-user.php/${userId??id}`).then((response) => {
             setInputs(response.data.user);
+            if(response.data.user.image_name){
+            const image = [{data_url: `http://localhost/users-task/api/users/images/${response.data.user.image_name}`}];
+            setSelectedImage(image);
+           }
         }).catch((err) => console.log(err));
     }, [userId, id])
 
@@ -47,12 +52,15 @@ export default function ViewEditUser(props) {
             enableReinitialize: true,
             validationSchema: validationSchema,
             onSubmit: async (values) => {
-
+                if(selectedImage){
+                    values.imageUrl = selectedImage[0].data_url;
+                  }
                 values.city_id = cityId;
                 // eslint-disable-next-line
                 values.gender? values.gender= values.gender : values.gender = null;
                 // eslint-disable-next-line
                 values.street? values.street= values.street : values.street = null;
+
 
                 await axios.put(`users/edit-user.php`, values).then((response) => {
 
@@ -83,7 +91,7 @@ export default function ViewEditUser(props) {
 
     return (
 
-            <UserInfo formik={formik} inputs={inputs} getCityId={getCityId}/>
+            <UserInfo formik={formik} inputs={inputs} getCityId={getCityId} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
 
         //////////// NORMAL INPUTS
         // <div>

@@ -1,8 +1,8 @@
 <?php
 require('../api-cofig.php');
-
+$DIR = "./images/";
 $userInfo = json_decode(file_get_contents("php://input"),true); // convert JSON to associative array
-// $imageUrl = $userInfo["imageUrl"];
+
 
 if (isset($userInfo['email']) && isset($userInfo['full_name']) &&  isset($userInfo['password']) 
 && !empty($userInfo['email']) && !empty($userInfo['full_name']) && !empty($userInfo['password']))
@@ -12,9 +12,6 @@ if (isset($userInfo['email']) && isset($userInfo['full_name']) &&  isset($userIn
 $full_name = $userInfo['full_name'];
 $email = strtolower($userInfo['email']);
 $password = md5($userInfo['password']); // encrypted password
-// $gender = $userInfo['gender'];
-// $city_id = $userInfo['city_id'];
-// $street = $userInfo['street'];
 
 // Check if email exists
 $sql_1 = "SELECT email FROM tbl_user WHERE email = '$email'";
@@ -28,13 +25,25 @@ if(mysqli_num_rows($res_1)) {
 else
 {
 //2. SQL query to save data into database
+
 $gender = $userInfo["gender"];
 $city_id = $userInfo["city_id"];
 $street = $userInfo["street"];
-// $imageUrl = $userInfo["imageUrl"];
+$imageUrl = $userInfo['imageUrl'];
+$file_chunks = explode(";base64,", $imageUrl);
+// $fileType = explode("image/", $file_chunks[0]);
+// $image_type = $fileType[1];
+$base64Img = base64_decode($file_chunks[1]);
+if($base64Img != "")
+  {
+  $image_name = uniqid() . '.png';
+  $file_path = $DIR . $image_name;
+  file_put_contents($file_path, $base64Img); 
+  }
 $gender? $gender= "'".$gender."'" : $gender = 'NULL';
 $street? $street= "'".$street."'" : $street = 'NULL';
-$sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password', gender  = $gender ,city_id = '$city_id' , street= $street";
+$image_name? $image_name= "'".$image_name."'" : $image_name = 'NULL';
+$sql_2 = "INSERT INTO tbl_user SET full_name='$full_name', email='$email', password='$password', image_name = $image_name, gender  = $gender ,city_id = '$city_id' , street= $street";
 // execute the query into database
 $res = mysqli_query($conn, $sql_2) or die(mysqli_error($conn));
 

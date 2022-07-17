@@ -42,20 +42,6 @@ validationSchema = yup.object({
     setCityId(cityId)
   }
 
-  // Create an object of formData
-  const formData = new FormData();
-    
-  // Update the formData object
-  if(selectedImage){
-    formData.append(
-      "myFile",
-      selectedImage[0].file,
-      selectedImage[0].file.name
-    );
-
-    console.log(formData)
-  }
-
   const formik = useFormik({
     initialValues: {
       country_name: "",
@@ -65,12 +51,7 @@ validationSchema = yup.object({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
               if(selectedImage){
-                formData.append(
-                  "myFile",
-                  selectedImage[0].file,
-                  selectedImage[0].file.name
-                );
-                values.imageUrl = formData;
+                values.imageUrl = selectedImage[0].data_url;
               }
               values.city_id = cityId;
              // eslint-disable-next-line
@@ -78,8 +59,8 @@ validationSchema = yup.object({
              // eslint-disable-next-line
              values.street? values.street= values.street : values.street = null;
 
-
              await axios.post(`users/add-user.php`, values).then(function(response){
+              console.log(response)
               const message = response.data.message;
               const status = response.data.status;
                  if(status){

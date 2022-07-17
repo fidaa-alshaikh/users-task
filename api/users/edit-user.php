@@ -1,6 +1,6 @@
 <?php 
 require('../api-cofig.php');
-
+$DIR = "./images/";
 //USE PATH
 $method = $_SERVER['REQUEST_METHOD'];
 // GET ONE USER
@@ -34,6 +34,16 @@ switch ($method) {
   // EDIT ONE USER
     case 'PUT':
       $inputs = json_decode(file_get_contents("php://input"),true);
+      $imageUrl = $inputs['imageUrl'];
+      $file_chunks = explode(";base64,", $imageUrl);
+      $base64Img = base64_decode($file_chunks[1]);
+      if($base64Img != "")
+     {
+      $image_name = uniqid() . '.png';
+      $file_path = $DIR . $image_name;
+      file_put_contents($file_path, $base64Img); 
+      }
+
       $id = $inputs["id"];
       $full_name = $inputs["full_name"];
       $gender = $inputs["gender"];
@@ -41,7 +51,8 @@ switch ($method) {
       $street = $inputs["street"];
       $gender? $gender= "'".$gender."'" : $gender = 'NULL';
       $street? $street= "'".$street."'" : $street = 'NULL';
-      $sql =  "UPDATE tbl_user SET full_name = '$full_name', gender  = $gender ,city_id = '$city_id' , street= $street  WHERE id = '$id'";
+      $image_name? $image_name= "'".$image_name."'" : $image_name = 'NULL';
+      $sql =  "UPDATE tbl_user SET full_name = '$full_name', gender  = $gender , image_name = $image_name, city_id = '$city_id' , street= $street  WHERE id = '$id'";
       $res = mysqli_query($conn, $sql);
       if ($res) {
         $response = ['status' => true, 'message' => 'Record updated successfully.'];

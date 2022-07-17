@@ -1,7 +1,7 @@
-import { ContactSupportOutlined } from '@mui/icons-material';
-import React, { useState } from 'react';
+import React from 'react';
 import ImageUploading from "react-images-uploading";
 import default_image from "../assets/images/default_image.png";
+// import default_image2 from "api/users/images/";
 export default function ImageUploader(props) {
 
     const { selectedImage, setSelectedImage } = props;
@@ -14,16 +14,11 @@ export default function ImageUploader(props) {
     };
 
     const onImageRemove1 = () => {
-        setSelectedImage(default_image);
+        const image = [{data_url: default_image}];
+        setSelectedImage(image);
 
     };
 
-    const onImageUpdate1 = () => {
-
-    };
-    
-
-    console.log(selectedImage)
     return (
         <div className="App">
             <ImageUploading
@@ -40,11 +35,16 @@ export default function ImageUploader(props) {
                 }) => (
                     // write your building UI
                     <div className="upload__image-wrapper">
+                        {selectedImage?
+                        <></>
+                        :
                         <button
-                            onClick={(e) => { e.preventDefault(); onImageUpload() }}
-                        >
-                            Click or Drop here
-                        </button>
+                        onClick={(e) => { e.preventDefault(); onImageUpload() }}
+                    >
+                        Click or Drop here
+                       </button>
+                        }
+
                         &nbsp;
                         {selectedImage &&
 
@@ -56,16 +56,19 @@ export default function ImageUploader(props) {
                         borderRadius: "50%"
                       }} />
                                 <div className="image-item__btn-wrapper">
-                                    <button onClick={(e) => { e.preventDefault(); onImageUpdate(0); }}>Update</button>
-                                    <button onClick={(e) => { e.preventDefault(); onImageRemove(0) }}>Remove</button>
+                                    <button onClick={(e) => { e.preventDefault(); onImageUpdate(0);  }}>Update</button>
+                                    <button onClick={(e) => { e.preventDefault(); onImageRemove(0); onImageRemove1() }}>Remove</button>
                                 </div>
                             </div>
                         }
+
+                
 
 
                     </div>
                 )}
             </ImageUploading>
+
         </div>
     )
 }

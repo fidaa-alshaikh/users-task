@@ -114,7 +114,7 @@ export default function UserInfo(props) {
 
 
                     <Grid item xs={12} sm={ 12} >
-                        <ImageUploader selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+                        <ImageUploader inputs={inputs} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
                     </Grid>
                     <Grid item xs={12} sm={addUser ? 6 : 12} >
                         <TextField
