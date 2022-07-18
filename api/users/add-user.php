@@ -1,6 +1,6 @@
 <?php
 require('../api-cofig.php');
-$DIR = "./images/";
+
 $userInfo = json_decode(file_get_contents("php://input"),true); // convert JSON to associative array
 
 
@@ -25,21 +25,26 @@ if(mysqli_num_rows($res_1)) {
 else
 {
 //2. SQL query to save data into database
+      $imageUrl = $userInfo['imageUrl'];
+      $DIR = "./images/";
+      if(isset($imageUrl)){
+        $file_chunks = explode(";base64,", $imageUrl);
+        $base64Img = base64_decode($file_chunks[1]);
+        if($base64Img != "")
+       {
+        $image_name = uniqid() . '.png';
+        $file_path = $DIR . $image_name;
+        file_put_contents($file_path, $base64Img); 
+        }
+      }
+      else
+      {
+        $image_name = null;
+      }
+      $gender = $userInfo["gender"];
+      $city_id = $userInfo["city_id"];
+      $street = $userInfo["street"];
 
-$gender = $userInfo["gender"];
-$city_id = $userInfo["city_id"];
-$street = $userInfo["street"];
-$imageUrl = $userInfo['imageUrl'];
-$file_chunks = explode(";base64,", $imageUrl);
-// $fileType = explode("image/", $file_chunks[0]);
-// $image_type = $fileType[1];
-$base64Img = base64_decode($file_chunks[1]);
-if($base64Img != "")
-  {
-  $image_name = uniqid() . '.png';
-  $file_path = $DIR . $image_name;
-  file_put_contents($file_path, $base64Img); 
-  }
 $gender? $gender= "'".$gender."'" : $gender = 'NULL';
 $street? $street= "'".$street."'" : $street = 'NULL';
 $image_name? $image_name= "'".$image_name."'" : $image_name = 'NULL';

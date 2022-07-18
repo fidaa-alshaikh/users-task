@@ -52,6 +52,8 @@ validationSchema = yup.object({
     onSubmit: async (values) => {
               if(selectedImage){
                 values.imageUrl = selectedImage[0].data_url;
+              }else{
+                values.imageUrl = null;
               }
               values.city_id = cityId;
              // eslint-disable-next-line

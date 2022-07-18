@@ -1,6 +1,6 @@
 <?php 
 require('../api-cofig.php');
-$DIR = "./images/";
+
 //USE PATH
 $method = $_SERVER['REQUEST_METHOD'];
 // GET ONE USER
@@ -35,15 +35,31 @@ switch ($method) {
     case 'PUT':
       $inputs = json_decode(file_get_contents("php://input"),true);
       $imageUrl = $inputs['imageUrl'];
-      $file_chunks = explode(";base64,", $imageUrl);
-      $base64Img = base64_decode($file_chunks[1]);
-      if($base64Img != "")
-     {
-      $image_name = uniqid() . '.png';
-      $file_path = $DIR . $image_name;
-      file_put_contents($file_path, $base64Img); 
-      }
+      $DIR = "./images/";
+      if(isset($imageUrl)){
+       //check if image exists
+       //$existingFile = explode("http://localhost/users-task/api/users/images/", $imageUrl);
+       $existingFile = substr($imageUrl, 45); // http://localhost/users-task/api/users/images/ is 45 characters long
+        if (file_exists("./images/".$existingFile)) {
+          $image_name = $existingFile;
+        }
+        else{
+         
+          $file_chunks = explode(";base64,", $imageUrl);
+          $base64Img = base64_decode($file_chunks[1]);
+          if($base64Img != "")
+         {
+          $image_name = uniqid() . '.png';
+          $file_path = $DIR . $image_name;
+          file_put_contents($file_path, $base64Img); 
+          }
+        }
 
+      }
+      else
+      {
+        $image_name = null;
+      }
       $id = $inputs["id"];
       $full_name = $inputs["full_name"];
       $gender = $inputs["gender"];
@@ -59,7 +75,7 @@ switch ($method) {
       } else {
         $response = ['status' => false, 'message' => 'Failed to update record.'];
       }
-          echo json_encode($response);
+         echo json_encode($response);
 
       break;
 }

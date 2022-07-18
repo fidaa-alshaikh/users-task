@@ -46,7 +46,10 @@ export default function Register() {
     onSubmit: async (values) => {
              values.gender = null;
              values.city_id = 0;
+             values.imageUrl = null;
+             values.street = null;
              await axios.post(`users/add-user.php`, values).then(function(response){
+              console.log(response)
               const message = response.data.message;
               const status = response.data.status;
                  if(status){

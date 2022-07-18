@@ -40,6 +40,10 @@ export default function ViewEditUser(props) {
             const image = [{data_url: `http://localhost/users-task/api/users/images/${response.data.user.image_name}`}];
             setSelectedImage(image);
            }
+           if (response.data.user.city_id){
+            const cityId = response.data.user.city_id;
+            setCityId(cityId);
+           }
         }).catch((err) => console.log(err));
     }, [userId, id])
 
@@ -53,17 +57,21 @@ export default function ViewEditUser(props) {
             validationSchema: validationSchema,
             onSubmit: async (values) => {
                 if(selectedImage){
+                     
                     values.imageUrl = selectedImage[0].data_url;
-                  }
-                values.city_id = cityId;
+                }else{
+                    values.imageUrl = null;
+                }
+                 values.city_id = cityId;
                 // eslint-disable-next-line
                 values.gender? values.gender= values.gender : values.gender = null;
                 // eslint-disable-next-line
                 values.street? values.street= values.street : values.street = null;
+                console.log(values)
 
 
                 await axios.put(`users/edit-user.php`, values).then((response) => {
-
+console.log(response);
                     const message = response.data.message;
                    
                     const status = response.data.status;
