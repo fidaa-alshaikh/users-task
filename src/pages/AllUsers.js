@@ -172,7 +172,9 @@ export default function AllUsers() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {status ?
+                {status && filteredRows.length > 0 ?
+
+                
                   filteredRows.map((row, key) => (
                     <TableRow
                       key={key}

@@ -75,7 +75,7 @@ export default function ImageUploader(props) {
                                <AddCircleIcon fontSize="inherit" />
                              </IconButton>
                            
-                             <IconButton aria-label="delete" color="primary" size="medium" onClick={(e) => { e.preventDefault(); onImageRemove(0); onImageRemove1() }}>
+                             <IconButton aria-label="delete" color="primary" size="large" onClick={(e) => { e.preventDefault(); onImageRemove(0); onImageRemove1() }}>
                                <CancelIcon fontSize="inherit" />
                              </IconButton>
                            

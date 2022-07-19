@@ -101,7 +101,7 @@ export default function UserInfo(props) {
             <Box component='form' onSubmit={formik.handleSubmit} sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom component="div" sx={{
                     marginTop: 8,
-                    marginBottom: 4,
+                    marginBottom: 0,
 
                 }}>
                     ✨ {addUser ? "Add User" : "Edit User"}

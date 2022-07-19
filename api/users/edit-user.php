@@ -39,9 +39,9 @@ switch ($method) {
       if(isset($imageUrl)){
        //check if image exists
        //$existingFile = explode("http://localhost/users-task/api/users/images/", $imageUrl);
-       $existingFile = substr($imageUrl, 45); // http://localhost/users-task/api/users/images/ is 45 characters long
-        if (file_exists("./images/".$existingFile)) {
-          $image_name = $existingFile;
+       $existingFileName = substr($imageUrl, 45); // http://localhost/users-task/api/users/images/ is 45 characters long
+        if (file_exists("./images/".$existingFileName)) {
+          $image_name = $existingFileName;
         }
         else{
          
