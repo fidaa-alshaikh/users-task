@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 // ADD TRY CATCH !!
-
+require_once('vendor/autoload.php');
 header('Access-Control-Allow-Origin:*'); // Allow to uses 2 localhost 
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *");

@@ -1,7 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import './App.css';
-import './test.php';
-
 import {
   Routes,
   Route} from 'react-router-dom';
